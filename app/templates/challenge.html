@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Royal Labyrinth | Damba Royal</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --ivory: #f7f2e7;
+            --cream: #fffdf7;
+            --paper: #ffffff;
+            --emerald: #123f32;
+            --emerald-dark: #0b2b22;
+            --emerald-light: #1f5b49;
+            --gold: #c6a15b;
+            --gold-light: #e5c987;
+            --gold-soft: #f1e3bd;
+            --text: #17231e;
+            --muted: #6b746f;
+            --border: #e7dcc5;
+            --success: #27724d;
+            --shadow: 0 18px 50px rgba(35, 47, 40, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(198,161,91,0.13), transparent 25%),
+                radial-gradient(circle at 90% 20%, rgba(18,63,50,0.09), transparent 28%),
+                linear-gradient(135deg, #faf6ec 0%, #f3eee2 48%, #fffdf8 100%);
+            min-height: 100vh;
+        }
+
+        /* =========================
+           TOP NAVIGATION
+        ========================= */
+
+        .topbar {
+            height: 76px;
+            background: rgba(255, 253, 247, 0.94);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(14px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-family: "Cinzel", serif;
+            font-weight: 700;
+            font-size: 17px;
+            background: #fffaf0;
+        }
+
+        .brand-text strong {
+            display: block;
+            font-family: "Cinzel", serif;
+            letter-spacing: 2px;
+            font-size: 16px;
+            color: var(--emerald);
+        }
+
+        .brand-text span {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 1px;
+        }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--emerald);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4c9b6e;
+            box-shadow: 0 0 0 5px rgba(76,155,110,0.12);
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .page {
+            width: min(1180px, 92%);
+            margin: 0 auto;
+            padding: 52px 0 70px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--gold);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .eyebrow::before,
+        .eyebrow::after {
+            content: "";
+            width: 28px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .hero h1 {
+            font-family: "Cinzel", serif;
+            color: var(--emerald);
+            font-size: clamp(32px, 5vw, 54px);
+            line-height: 1.05;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        /* =========================
+           PLAYER STATS
+        ========================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 26px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.88);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px 20px;
+            box-shadow: 0 8px 25px rgba(35,47,40,0.06);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin-bottom: 7px;
+            font-weight: 700;
+        }
+
+        .stat-value {
+            font-size: 23px;
+            color: var(--emerald);
+            font-weight: 800;
+        }
+
+        /* =========================
+           ARENA
+        ========================= */
+
+        .arena {
+            background:
+                radial-gradient(circle at 50% 0%, rgba(229,201,135,0.15), transparent 35%),
+                linear-gradient(145deg, #174b3b, #0e3329);
+            border-radius: 28px;
+            padding: 9px;
+            box-shadow: 0 25px 70px rgba(18,63,50,0.22);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .arena::before {
+            content: "";
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            border: 1px solid rgba(229,201,135,0.15);
+            border-radius: 50%;
+            left: 50%;
+            top: -270px;
+            transform: translateX(-50%);
+        }
+
+        .arena-inner {
+            background: #fffdf8;
+            border-radius: 21px;
+            min-height: 550px;
+            padding: 34px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .arena-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 26px;
+            gap: 20px;
+        }
+
+        .mission-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 13px;
+            background: #f4ecda;
+            border: 1px solid #e5d4ae;
+            border-radius: 999px;
+            color: var(--emerald);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .mission-number {
+            color: var(--gold);
+        }
+
+        .timer-box {
+            min-width: 190px;
+        }
+
+        .timer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 7px;
+        }
+
+        .timer-label {
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timer {
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--emerald);
+        }
+
+        .timer-track {
+            height: 6px;
+            background: #eae5d9;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .timer-progress {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--emerald-light));
+            border-radius: inherit;
+            transition: width 1s linear;
+        }
+
+        /* =========================
+           MISSION
+        ========================= */
+
+        .mission-content {
+            max-width: 850px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .mission-icon {
+            width: 88px;
+            height: 88px;
+            margin: 8px auto 22px;
+            border-radius: 24px;
+            background:
+                linear-gradient(145deg, #f8efdc, #fffaf0);
+            border: 1px solid #dfcda5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            box-shadow: 0 12px 30px rgba(198,161,91,0.16);
+        }
+
+        .mission-content h2 {
+            font-family: "Cinzel", serif;
+            font-size: clamp(27px, 4vw, 42px);
+            color: var(--emerald);
+            margin-bottom: 14px;
+        }
+
+        .description {
+            max-width: 690px;
+            margin: 0 auto 15px;
+            color: #505b55;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .instruction {
+            display: inline-block;
+            padding: 10px 16px;
+            background: #f7f2e8;
+            border-radius: 10px;
+            color: var(--emerald);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .sequence {
+            display: none;
+            margin: 0 auto 28px;
+            padding: 20px;
+            border-radius: 16px;
+            background: #f8f3e8;
+            border: 1px solid var(--border);
+            font-size: 32px;
+            letter-spacing: 12px;
+        }
+
+        /* =========================
+           OPTIONS
+        ========================= */
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .option {
+            min-height: 125px;
+            border: 1px solid #ded7c9;
+            border-radius: 18px;
+            background: white;
+            cursor: pointer;
+            padding: 18px;
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+        }
+
+        .option:hover {
+            transform: translateY(-4px);
+            border-color: var(--gold);
+            box-shadow: 0 12px 30px rgba(198,161,91,0.18);
+            background: #fffaf0;
+        }
+
+        .option.selected {
+            border: 2px solid var(--gold);
+            background: #fff8e9;
+            box-shadow: 0 10px 30px rgba(198,161,91,0.2);
+        }
+
+        .option-symbol {
+            font-size: 35px;
+        }
+
+        .option-label {
+            font-size: 13px;
+            color: var(--emerald);
+            font-weight: 800;
+        }
+
+        /* =========================
+           SUBMIT
+        ========================= */
+
+        .submit-area {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .submit-btn,
+        .next-btn {
+            border: none;
+            border-radius: 12px;
+            padding: 14px 30px;
+            background: linear-gradient(135deg, #c6a15b, #e0c17e);
+            color: #18352b;
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(198,161,91,0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .submit-btn:hover,
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(198,161,91,0.32);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* =========================
+           RESULT
+        ========================= */
+
+        .result {
+            display: none;
+            max-width: 680px;
+            margin: 20px auto 0;
+            text-align: center;
+            padding: 35px;
+            border-radius: 22px;
+            background: #f7f2e7;
+            border: 1px solid var(--border);
+        }
+
+        .result-badge {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e6f1e9;
+            color: var(--success);
+            font-size: 34px;
+        }
+
+        .result h2 {
+            font-family: "Cinzel", serif;
+            color: var(--emerald);
+            font-size: 30px;
+            margin-bottom: 9px;
+        }
+
+        .result-message {
+            color: var(--muted);
+            margin-bottom: 22px;
+        }
+
+        .result-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .result-stat {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .result-stat strong {
+            display: block;
+            font-size: 21px;
+            color: var(--emerald);
+        }
+
+        .result-stat span {
+            font-size: 10px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* =========================
+           COMPLETED
+        ========================= */
+
+        .completed {
+            display: none;
+            text-align: center;
+            max-width: 700px;
+            margin: 50px auto;
+        }
+
+        .completed-crown {
+            font-size: 65px;
+            margin-bottom: 15px;
+        }
+
+        .completed h2 {
+            font-family: "Cinzel", serif;
+            color: var(--emerald);
+            font-size: clamp(30px, 5vw, 48px);
+            margin-bottom: 12px;
+        }
+
+        .completed p {
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .master-card {
+            background: linear-gradient(145deg, #174b3b, #0c3026);
+            color: white;
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(229,201,135,0.45);
+            box-shadow: 0 20px 45px rgba(18,63,50,0.2);
+        }
+
+        .master-card strong {
+            display: block;
+            font-family: "Cinzel", serif;
+            color: var(--gold-light);
+            letter-spacing: 2px;
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+        .master-card span {
+            color: #d8e2dc;
+            font-size: 13px;
+        }
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+            text-align: center;
+            padding: 110px 20px;
+            color: var(--muted);
+        }
+
+        .loader {
+            width: 38px;
+            height: 38px;
+            border: 3px solid #e6ddcc;
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error {
+            display: none;
+            padding: 30px;
+            text-align: center;
+            color: #9a3c3c;
+            background: #fff1ef;
+            border: 1px solid #efcccc;
+            border-radius: 15px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+            padding: 35px 20px;
+            color: #858b86;
+            font-size: 11px;
+            letter-spacing: 0.7px;
+        }
+
+        footer strong {
+            color: var(--emerald);
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .topbar {
+                padding: 0 4%;
+            }
+
+            .nav-status {
+                display: none;
+            }
+
+            .page {
+                width: 94%;
+                padding-top: 35px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .arena-inner {
+                padding: 22px 16px;
+            }
+
+            .arena-top {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .timer-box {
+                width: 100%;
+            }
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            .option {
+                min-height: 95px;
+                flex-direction: row;
+                justify-content: flex-start;
+                padding-left: 25px;
+            }
+
+            .result-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .brand-text span {
+                display: none;
+            }
+
+            .brand-mark {
+                width: 37px;
+                height: 37px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .stats {
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 14px;
+            }
+
+            .stat-value {
+                font-size: 19px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+        <div class="brand-mark">DR</div>
+
+        <div class="brand-text">
+            <strong>DAMBA ROYAL</strong>
+            <span>GLOBAL HERITAGE PLATFORM</span>
+        </div>
+    </div>
+
+    <div class="nav-status">
+        <span class="status-dot"></span>
+        DIGITAL ARENA ONLINE
+    </div>
+
+</header>
+
+
+<main class="page">
+
+    <section class="hero">
+
+        <div class="eyebrow">
+            Royal Labyrinth
+        </div>
+
+        <h1>The Digital Training Arena</h1>
+
+        <p>
+            Train online. Qualify worldwide.
+        </p>
+
+    </section>
+
+
+    <!-- PLAYER STATS -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <div class="stat-label">Royal ID</div>
+            <div class="stat-value" id="royalId">—</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">Level</div>
+            <div class="stat-value" id="level">—</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">Experience</div>
+            <div class="stat-value" id="xp">0 XP</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">Royal Tokens</div>
+            <div class="stat-value" id="tokens">0</div>
+        </div>
+
+    </section>
+
+
+    <!-- ARENA -->
+
+    <section class="arena">
+
+        <div class="arena-inner">
+
+            <div id="loading" class="loading">
+                <div class="loader"></div>
+                <p>Opening the Royal Gate...</p>
+            </div>
+
+
+            <div id="error" class="error"></div>
+
+
+            <!-- ACTIVE MISSION -->
+
+            <div id="missionPanel" style="display:none;">
+
+                <div class="arena-top">
+
+                    <div class="mission-tag">
+                        <span id="category">MISSION</span>
+                        <span>•</span>
+                        <span class="mission-number" id="missionNumber">001</span>
+                    </div>
+
+                    <div class="timer-box">
+
+                        <div class="timer-row">
+
+                            <span class="timer-label">
+                                Time Remaining
+                            </span>
+
+                            <span class="timer" id="timer">
+                                60
+                            </span>
+
+                        </div>
+
+                        <div class="timer-track">
+                            <div class="timer-progress" id="timerProgress"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="mission-content">
+
+                    <div class="mission-icon" id="missionIcon">
+                        👑
+                    </div>
+
+                    <h2 id="missionTitle">
+                        The Royal Gate
+                    </h2>
+
+                    <p class="description" id="missionDescription"></p>
+
+                    <div class="instruction" id="instruction"></div>
+
+                    <div class="sequence" id="sequence"></div>
+
+                    <div class="options" id="options"></div>
+
+                    <div class="submit-area">
+
+                        <button
+                            class="submit-btn"
+                            id="submitBtn"
+                            disabled
+                            onclick="submitAnswer()"
+                        >
+                            ENTER MY CHOICE
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULT -->
+
+            <div id="result" class="result">
+
+                <div class="result-badge" id="resultBadge">
+                    ✓
+                </div>
+
+                <h2 id="resultTitle">
+                    Royal Gate Cleared
+                </h2>
+
+                <p class="result-message" id="resultMessage"></p>
+
+                <div class="result-stats">
+
+                    <div class="result-stat">
+                        <strong id="scoreResult">0</strong>
+                        <span>Score</span>
+                    </div>
+
+                    <div class="result-stat">
+                        <strong id="xpResult">0</strong>
+                        <span>XP Earned</span>
+                    </div>
+
+                    <div class="result-stat">
+                        <strong id="tokenResult">0</strong>
+                        <span>Royal Tokens</span>
+                    </div>
+
+                </div>
+
+                <button class="next-btn" onclick="loadNextMission()">
+                    CONTINUE THE LABYRINTH
+                </button>
+
+            </div>
+
+
+            <!-- ALL COMPLETED -->
+
+            <div id="completed" class="completed">
+
+                <div class="completed-crown">
+                    👑
+                </div>
+
+                <h2>Royal Labyrinth Master</h2>
+
+                <p>
+                    You have completed every available Royal Labyrinth
+                    mission in the current training cycle.
+                </p>
+
+                <div class="master-card">
+
+                    <strong>FOUNDERS ERA ACHIEVEMENT</strong>
+
+                    <span>
+                        Continue training as new chambers and missions
+                        are introduced.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+    <strong>DAMBA ROYAL</strong> · Royal Labyrinth · Founders Era
+</footer>
+
+
+<script>
+
+    let currentChallenge = null;
+    let selectedAnswer = null;
+    let timerInterval = null;
+    let timeRemaining = 0;
+    let totalTime = 0;
+
+
+    // ============================
+    // LOAD PLAYER
+    // ============================
+
+    async function loadPlayer() {
+
+        try {
+
+            const response = await fetch("/api/player");
+
+            if (!response.ok) {
+                throw new Error("Unable to load player.");
+            }
+
+            const player = await response.json();
+
+            document.getElementById("royalId").textContent =
+                player.royal_id || "—";
+
+            document.getElementById("level").textContent =
+                player.level || "Explorer";
+
+            document.getElementById("xp").textContent =
+                `${player.xp || 0} XP`;
+
+            document.getElementById("tokens").textContent =
+                player.royal_tokens || 0;
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    }
+
+
+    // ============================
+    // LOAD NEXT CHALLENGE
+    // ============================
+
+    async function loadNextMission() {
+
+        stopTimer();
+
+        selectedAnswer = null;
+
+        document.getElementById("result").style.display = "none";
+        document.getElementById("completed").style.display = "none";
+
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("missionPanel").style.display = "none";
+
+        try {
+
+            const response =
+                await fetch("/api/challenges/next");
+
+            if (!response.ok) {
+                throw new Error("Could not load the next challenge.");
+            }
+
+            const data = await response.json();
+
+            document.getElementById("loading").style.display = "none";
+
+            if (data.completed === true) {
+
+                document.getElementById("completed").style.display = "block";
+
+                return;
+            }
+
+            if (!data.success || !data.challenge) {
+                throw new Error(
+                    data.message || data.error || "Could not load the next challenge."
+                );
+            }
+
+            currentChallenge = data.challenge;
+
+            renderChallenge(currentChallenge);
+
+            document.getElementById("missionPanel").style.display =
+                "block";
+
+        } catch (error) {
+
+            console.error(error);
+
+            document.getElementById("loading").style.display = "none";
+
+            const errorBox = document.getElementById("error");
+
+            errorBox.textContent =
+                "The Royal Gate could not be opened. Please refresh and try again.";
+
+            errorBox.style.display = "block";
+        }
+
+    }
+
+
+    // ============================
+    // RENDER CHALLENGE
+    // ============================
+
+    function renderChallenge(challenge) {
+
+        document.getElementById("category").textContent =
+            challenge.category || "Royal Mission";
+
+        const number =
+            challenge.id
+                ? challenge.id.replace("mission-", "")
+                : "001";
+
+        document.getElementById("missionNumber").textContent =
+            number.padStart(3, "0");
+
+        document.getElementById("missionTitle").textContent =
+            challenge.title || "Royal Mission";
+
+        document.getElementById("missionDescription").textContent =
+            challenge.description || "";
+
+        document.getElementById("instruction").textContent =
+            challenge.instruction || "Choose carefully.";
+
+        const icon =
+            getCategoryIcon(challenge.category);
+
+        document.getElementById("missionIcon").textContent =
+            icon;
+
+
+        // Target
+
+        if (challenge.target) {
+
+            document.getElementById("sequence").style.display = "block";
+
+            document.getElementById("sequence").textContent =
+                challenge.target;
+
+        } else if (challenge.sequence) {
+
+            document.getElementById("sequence").style.display = "block";
+
+            document.getElementById("sequence").textContent =
+                challenge.sequence;
+
+        } else {
+
+            document.getElementById("sequence").style.display = "none";
+        }
+
+
+        // Options
+
+        const optionsContainer =
+            document.getElementById("options");
+
+        optionsContainer.innerHTML = "";
+
+        if (challenge.options && challenge.options.length) {
+
+            challenge.options.forEach(option => {
+
+                const button =
+                    document.createElement("button");
+
+                button.className = "option";
+
+                button.dataset.id = option.id;
+
+                button.innerHTML = `
+                    <span class="option-symbol">
+                        ${option.symbol || "◇"}
+                    </span>
+
+                    <span class="option-label">
+                        ${escapeHtml(option.label || "Choose")}
+                    </span>
+                `;
+
+                button.onclick = () =>
+                    selectOption(option.id, button);
+
+                optionsContainer.appendChild(button);
+
+            });
+
+        }
+
+
+        document.getElementById("submitBtn").disabled = true;
+
+        startTimer(challenge.time_limit || 60);
+    }
+
+
+    // ============================
+    // CATEGORY ICON
+    // ============================
+
+    function getCategoryIcon(category) {
+
+        if (!category) return "👑";
+
+        const value = category.toLowerCase();
+
+        if (value.includes("maze")) return "🧭";
+        if (value.includes("memory")) return "🧠";
+        if (value.includes("observation")) return "👁️";
+        if (value.includes("strategy")) return "♟️";
+        if (value.includes("gate")) return "🚪";
+        if (value.includes("history")) return "🏛️";
+        if (value.includes("kingdom")) return "👑";
+
+        return "✦";
+    }
+
+
+    // ============================
+    // SELECT OPTION
+    // ============================
+
+    function selectOption(id, element) {
+
+        selectedAnswer = id;
+
+        document
+            .querySelectorAll(".option")
+            .forEach(option => {
+                option.classList.remove("selected");
+            });
+
+        element.classList.add("selected");
+
+        document.getElementById("submitBtn").disabled = false;
+    }
+
+
+    // ============================
+    // TIMER
+    // ============================
+
+    function startTimer(seconds) {
+
+        stopTimer();
+
+        totalTime = seconds;
+        timeRemaining = seconds;
+
+        updateTimerDisplay();
+
+        timerInterval =
+            setInterval(() => {
+
+                timeRemaining--;
+
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0) {
+
+                    stopTimer();
+
+                    if (selectedAnswer === null) {
+                        submitAnswer(true);
+                    }
+
+                }
+
+            }, 1000);
+    }
+
+
+    function stopTimer() {
+
+        if (timerInterval) {
+
+            clearInterval(timerInterval);
+
+            timerInterval = null;
+        }
+    }
+
+
+    function updateTimerDisplay() {
+
+        document.getElementById("timer").textContent =
+            Math.max(0, timeRemaining);
+
+        const percentage =
+            totalTime > 0
+                ? (timeRemaining / totalTime) * 100
+                : 0;
+
+        document.getElementById("timerProgress").style.width =
+            `${percentage}%`;
+    }
+
+
+    // ============================
+    // SUBMIT
+    // ============================
+
+   async function submitAnswer(timeout = false) {
+
+    if (!currentChallenge) return;
+
+    if (selectedAnswer === null) {
+
+        if (!timeout) return;
+
+        selectedAnswer = "";
+    }
+
+    stopTimer();
+
+    document.getElementById("submitBtn").disabled = true;
+
+    try {
+
+        const timeLeft = Math.max(
+            0,
+            Math.floor(timeRemaining)
+        );
+
+        const formData = new URLSearchParams();
+
+        formData.append(
+            "answer",
+            selectedAnswer
+        );
+
+        formData.append(
+            "time_left",
+            String(timeLeft)
+        );
+
+        const response = await fetch(
+            `/api/challenges/${currentChallenge.id}/complete`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/x-www-form-urlencoded"
+                },
+
+                body: formData.toString()
+            }
+        );
+
+        if (!response.ok) {
+
+            const text = await response.text();
+
+            console.error(
+                "Mission submission failed:",
+                response.status,
+                text
+            );
+
+            throw new Error(
+                text || "Submission failed."
+            );
+        }
+
+        const result =
+            await response.json();
+
+        showResult(result);
+
+        await loadPlayer();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "The Royal Gate could not record your answer. Please try again."
+        );
+
+        document.getElementById(
+            "submitBtn"
+        ).disabled = false;
+    }
+}

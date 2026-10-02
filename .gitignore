@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Damba Royal local databases
+damba_royal.db
+app/damba_royal.db
+
+# Damba Royal temporary backups
+app/main.py.backup-*

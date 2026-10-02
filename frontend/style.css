@@ -1,0 +1,400 @@
+/* ===========================
+   DAMBA ROYAL - VERSION 2
+   Premium Black & Gold Theme
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#0b0b0b;
+    color:white;
+}
+
+/* ---------- HEADER ---------- */
+
+.topbar{
+
+    background:#111;
+
+    padding:25px;
+
+    text-align:center;
+
+    border-bottom:2px solid gold;
+
+}
+
+.topbar h1{
+
+    color:gold;
+
+    font-size:38px;
+
+    letter-spacing:2px;
+
+}
+
+.topbar p{
+
+    color:#ddd;
+
+    margin-top:10px;
+
+}
+
+/* ---------- HERO ---------- */
+
+.hero{
+
+    width:90%;
+
+    margin:40px auto;
+
+    background:#151515;
+
+    border:2px solid gold;
+
+    border-radius:20px;
+
+    padding:50px;
+
+    text-align:center;
+
+}
+
+.hero h1{
+
+    color:gold;
+
+    font-size:42px;
+
+    margin-bottom:20px;
+
+}
+
+.hero p{
+
+    font-size:20px;
+
+    color:#ddd;
+
+    line-height:1.8;
+
+}
+
+.hero-btn{
+
+    display:inline-block;
+
+    margin-top:30px;
+
+    padding:16px 40px;
+
+    background:gold;
+
+    color:black;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    border-radius:10px;
+
+    transition:.3s;
+
+}
+
+.hero-btn:hover{
+
+    background:#ffcf33;
+
+    transform:scale(1.05);
+
+}
+
+/* ---------- STATS ---------- */
+
+.stats{
+
+    width:90%;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+
+}
+
+.stat-card{
+
+    background:#161616;
+
+    border:1px solid #333;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    text-align:center;
+
+    transition:.3s;
+
+}
+
+.stat-card:hover{
+
+    border-color:gold;
+
+    transform:translateY(-5px);
+
+}
+
+.stat-card h3{
+
+    color:gold;
+
+    margin-bottom:15px;
+
+}
+
+.stat-card h1{
+
+    font-size:38px;
+
+    margin-bottom:10px;
+
+}
+
+/* ---------- DASHBOARD ---------- */
+
+.dashboard{
+
+    width:90%;
+
+    margin:40px auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+
+    gap:25px;
+
+}
+
+.panel{
+
+    background:#151515;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    border:1px solid #2b2b2b;
+
+    transition:.3s;
+
+}
+
+.panel:hover{
+
+    border-color:gold;
+
+    transform:translateY(-4px);
+
+}
+
+.panel h2{
+
+    color:gold;
+
+    margin-bottom:20px;
+
+}
+
+.panel h3{
+
+    margin:12px 0;
+
+}
+
+.panel p{
+
+    color:#ddd;
+
+    margin:8px 0;
+
+    line-height:1.6;
+
+}
+
+.panel button{
+
+    margin-top:20px;
+
+    width:100%;
+
+    padding:14px;
+
+    background:gold;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+}
+
+.panel button:hover{
+
+    background:#ffcf33;
+
+}
+
+/* ---------- MISSION ---------- */
+
+.mission{
+
+    width:90%;
+
+    margin:40px auto;
+
+    background:#151515;
+
+    border-left:6px solid gold;
+
+    border-radius:15px;
+
+    padding:30px;
+
+}
+
+.mission h2{
+
+    color:gold;
+
+    margin-bottom:15px;
+
+}
+
+/* ---------- NEWS ---------- */
+
+.news{
+
+    width:90%;
+
+    margin:30px auto;
+
+    background:#151515;
+
+    border-left:6px solid #00c853;
+
+    border-radius:15px;
+
+    padding:30px;
+
+}
+
+.news h2{
+
+    color:#00e676;
+
+    margin-bottom:15px;
+
+}
+
+/* ---------- ECOSYSTEM ---------- */
+
+.ecosystem{
+
+    width:90%;
+
+    margin:40px auto;
+
+}
+
+.ecosystem h2{
+
+    color:gold;
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+}
+
+.eco-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+
+    gap:20px;
+
+}
+
+.eco-grid div{
+
+    background:#151515;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    text-align:center;
+
+    border:1px solid #333;
+
+    transition:.3s;
+
+}
+
+.eco-grid div:hover{
+
+    border-color:gold;
+
+    transform:translateY(-5px);
+
+}
+
+.eco-grid h3{
+
+    color:gold;
+
+    margin-bottom:15px;
+
+}
+
+/* ---------- FOOTER ---------- */
+
+footer{
+
+    margin-top:60px;
+
+    padding:30px;
+
+    background:#111;
+
+    text-align:center;
+
+    border-top:2px solid gold;
+
+}
+
+footer p{
+
+    color:#bbb;
+
+}

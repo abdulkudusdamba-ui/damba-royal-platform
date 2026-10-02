@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Damba Royal Command Center</title>
+
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+
+<h1>👑 DAMBA ROYAL</h1>
+
+<p>The World's Royal Platform</p>
+
+</header>
+
+
+<section class="hero">
+
+<h1>Welcome Back, {{ player.full_name }} 👑</h1>
+
+<p>
+Continue your journey toward becoming one of the
+Founding Champions of the Royal Labyrinth.
+
+Every challenge completed today moves you one step
+closer to future global invitations.
+</p>
+
+<a href="/challenge" class="hero-btn">
+Continue Your Journey
+</a>
+
+</section>
+
+
+<section class="stats">
+
+<div class="stat-card">
+
+<h3>🌍 Players Online</h3>
+
+<h1 id="players">1,284</h1>
+
+<p>Currently Competing</p>
+
+</div>
+
+
+<div class="stat-card">
+
+<h3>🌎 Countries</h3>
+
+<h1>98</h1>
+
+<p>Global Community</p>
+
+</div>
+
+
+<div class="stat-card">
+
+<h3>🏆 Era</h3>
+
+<h1>Season Zero</h1>
+
+<p>Founders Era</p>
+
+</div>
+
+
+<div class="stat-card">
+
+<h3>🪙 Royal Tokens</h3>
+
+<h1>{{ player.royal_tokens }}</h1>
+
+<p>Your Royal Tokens</p>
+
+</div>
+
+</section>
+
+
+<section class="mission">
+
+<h2>🎯 Mission of the Day</h2>
+
+<p>
+Complete one Royal Challenge
+</p>
+
+<br>
+
+<p>
+Reward
+<strong>50 Royal Tokens</strong>
+</p>
+
+<br>
+
+<p>
+Bonus
+<strong>10 XP</strong>
+</p>
+
+</section>
+
+
+<section class="dashboard">
+
+
+<div class="panel">
+
+<h2>👤 Royal Citizen</h2>
+
+<p><strong>Royal ID</strong></p>
+
+<h3>{{ player.royal_id }}</h3>
+
+<p><strong>Country</strong></p>
+
+<h3>🌍 {{ player.country }}</h3>
+
+<p><strong>Player Level</strong></p>
+
+<h3>{{ player.level }}</h3>
+
+<p><strong>Experience</strong></p>
+
+<h3>{{ player.xp }} XP</h3>
+
+<p><strong>Royal Tokens</strong></p>
+
+<h3>{{ player.royal_tokens }} Tokens</h3>
+
+<p><strong>Royal Badge</strong></p>
+
+<h3>🏅 {{ player.badge }}</h3>
+
+<button>View Full Profile</button>
+
+</div>
+
+
+<div class="panel">
+
+<h2>🏰 Royal Labyrinth</h2>
+
+<h3>Mission 001</h3>
+
+<p>
+The Royal Gate has been sealed.
+
+Solve today's challenge to continue your journey.
+</p>
+
+<p>
+Reward:
+<strong>50 Royal Tokens</strong>
+</p>
+
+<a href="/challenge">
+<button>Continue Journey</button>
+</a>
+
+</div>
+
+
+<div class="panel">
+
+<h2>🏆 Global Leaderboard</h2>
+
+<p>🥇 Player Alpha 🇺🇸</p>
+
+<p>🥈 Royal Warrior 🇬🇭</p>
+
+<p>🥉 Kingdom Master 🇵🇭</p>
+
+<hr>
+
+<p>Your Rank</p>
+
+<h3>Unranked</h3>
+
+<button>View Rankings</button>
+
+</div>
+
+
+<div class="panel">
+
+<h2>🪙 SAL AFRICA</h2>
+
+<p>
+Your Digital Identity Platform
+</p>
+
+<p>✔ Royal ID</p>
+
+<p>✔ Digital Wallet</p>
+
+<p>✔ Secure Identity</p>
+
+<p>✔ Future Asset Services</p>
+
+<button>Open SAL AFRICA</button>
+
+</div>
+
+
+<div class="panel">
+
+<h2>🛍️ Damba Royal Luxury</h2>
+
+<p>
+Premium Shea Products
+</p>
+
+<p>
+Luxury Fashion
+</p>
+
+<p>
+Northern Heritage Collection
+</p>
+
+<button>Explore Luxury</button>
+
+</div>
+
+
+<div class="panel">
+
+<h2>🏨 Royal Resort</h2>
+
+<p>
+Future Championship Destination
+</p>
+
+<p>
+Luxury Accommodation
+</p>
+
+<p>
+Cultural Experience
+</p>
+
+<button>Discover Resort</button>
+
+</div>
+
+
+<div class="panel">
+
+<h2>✈️ My Royal Journey</h2>
+
+<p>Visa Assistance</p>
+
+<p>Hotel Booking</p>
+
+<p>Airport Pickup</p>
+
+<p>Future Championship Invitations</p>
+
+<button>Manage Journey</button>
+
+</div>
+
+</section>
+
+
+<section class="news">
+
+<h2>📢 Royal News</h2>
+
+<p>
+👑 Welcome to the <strong>Founders Era</strong>.
+
+The Royal Labyrinth is currently under development.
+
+Every challenge you complete earns experience and helps you qualify for future championship invitations.
+</p>
+
+<p>
+🏆 The first generation of players will permanently receive the
+<strong>Founding Player Badge.</strong>
+</p>
+
+</section>
+
+
+<section class="ecosystem">
+
+<h2>🌍 The Damba Royal Ecosystem</h2>
+
+<div class="eco-grid">
+
+
+<div>
+
+<h3>🏰 Royal Labyrinth</h3>
+
+<p>
+Compete online.
+
+Qualify globally.
+
+Prepare for the future physical championship.
+</p>
+
+</div>
+
+
+<div>
+
+<h3>🪙 SAL AFRICA</h3>
+
+<p>
+Your secure Royal Identity.
+
+Digital Wallet.
+
+Future Asset Platform.
+</p>
+
+</div>
+
+
+<div>
+
+<h3>🛍️ Damba Royal Luxury</h3>
+
+<p>
+Luxury Shea Products
+
+Premium Fashion
+
+Northern Heritage Collection
+</p>
+
+</div>
+
+
+<div>
+
+<h3>🏨 Royal Resort</h3>
+
+<p>
+Luxury accommodation
+
+Future championship destination
+
+Cultural tourism
+</p>
+
+</div>
+
+
+<div>
+
+<h3>✈️ Royal Journey</h3>
+
+<p>
+Visa
+
+Travel
+
+Hotel
+
+Airport Pickup
+
+Future Invitations
+</p>
+
+</div>
+
+
+<div>
+
+<h3>🐎 Polo & Equestrian Park</h3>
+
+<p>
+Future international horse arena
+
+Training
+
+Shows
+
+Royal competitions
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="mission">
+
+<h2>👑 Founders Era</h2>
+
+<p>
+You are among the world's first players.
+
+Complete challenges.
+
+Earn Royal Tokens.
+
+Build your legacy.
+
+When the Royal Labyrinth opens,
+
+qualified players will receive championship invitations.
+</p>
+
+</section>
+
+
+<footer>
+
+<h2>👑 DAMBA ROYAL</h2>
+
+<p>
+Train Online.
+
+Qualify Worldwide.
+
+Build Your Legacy.
+</p>
+
+<br>
+
+<p>
+Building Africa's Global Heritage Ecosystem
+</p>
+
+<br>
+
+<p>
+© 2026 Damba Royal. All Rights Reserved.
+</p>
+
+</footer>
+
+
+<script src="/static/js/script.js"></script>
+
+</body>
+
+</html>
