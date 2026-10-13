@@ -1,3 +1,6 @@
+import os
+import secrets
+
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -25,9 +28,21 @@ Base.metadata.create_all(bind=engine)
 # SESSIONS
 # =========================================================
 
+def _load_session_secret() -> str:
+    secret = os.environ.get("SESSION_SECRET_KEY")
+    if secret:
+        return secret
+    if os.environ.get("APP_ENV", "development").lower() == "production":
+        raise RuntimeError(
+            "SESSION_SECRET_KEY must be set when APP_ENV=production."
+        )
+    # Development only: ephemeral random key (sessions reset on restart).
+    return secrets.token_urlsafe(48)
+
+
 app.add_middleware(
     SessionMiddleware,
-    secret_key="damba-royal-founders-era-secret-key-change-later"
+    secret_key=_load_session_secret()
 )
 
 

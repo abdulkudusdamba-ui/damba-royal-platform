@@ -39,11 +39,6 @@ def register(
     alias: str = Form(...),
     password: str = Form(...)
 ):
-    print("========== REGISTER ROUTE HIT ==========")
-    print("Full Name:", full_name)
-    print("Email:", email)
-    print("Country:", country)
-    print("Alias:", alias)
 
     db: Session = SessionLocal()
 
@@ -96,9 +91,6 @@ def register(
 
         db.commit()
 
-        print("========== PLAYER CREATED ==========")
-        print("Royal ID:", player.royal_id)
-        print("Player ID:", player.id)
 
         return RedirectResponse(
             url="/login",
@@ -115,8 +107,6 @@ def login(
     email: str = Form(...),
     password: str = Form(...)
 ):
-    print("========== LOGIN ROUTE HIT ==========")
-    print("Email:", email)
 
     db: Session = SessionLocal()
 
@@ -141,8 +131,6 @@ def login(
 
         request.session["player_id"] = player.id
 
-        print("========== LOGIN SUCCESS ==========")
-        print("Royal ID:", player.royal_id)
 
         return RedirectResponse(
             url="/dashboard",
