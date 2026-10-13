@@ -8,6 +8,7 @@
 <title>Damba Royal Command Center</title>
 
 <link rel="stylesheet" href="/static/css/style.css">
+<link rel="stylesheet" href="/static/css/ecosystem.css">
 </head>
 
 <body>
@@ -39,6 +40,11 @@ Continue Your Journey
 
 </section>
 
+<section class="mission">
+<h2>⚔️ Online Competition</h2>
+<p>Challenge one other authenticated player in a shared, timed round.</p>
+<a href="/live" class="hero-btn">Enter the Online Arena</a>
+</section>
 
 <section class="stats">
 
@@ -48,7 +54,7 @@ Continue Your Journey
 
 <h1 id="players">1,284</h1>
 
-<p>Currently Competing</p>
+<p>Illustrative simulated statistic — not live activity</p>
 
 </div>
 
@@ -59,7 +65,7 @@ Continue Your Journey
 
 <h1>98</h1>
 
-<p>Global Community</p>
+<p>Illustrative simulated statistic — not verified membership</p>
 
 </div>
 
@@ -116,7 +122,7 @@ Bonus
 <section class="dashboard">
 
 
-<div class="panel">
+<div class="panel" id="profile">
 
 <h2>👤 Royal Citizen</h2>
 
@@ -144,7 +150,7 @@ Bonus
 
 <h3>🏅 {{ player.badge }}</h3>
 
-<button>View Full Profile</button>
+<a href="/ecosystem/sal-africa"><button>View Royal ID &amp; SAL AFRICA</button></a>
 
 </div>
 
@@ -169,6 +175,7 @@ Reward:
 <a href="/challenge">
 <button>Continue Journey</button>
 </a>
+<a href="/ecosystem/labyrinth"><button>About the Labyrinth</button></a>
 
 </div>
 
@@ -176,6 +183,7 @@ Reward:
 <div class="panel">
 
 <h2>🏆 Global Leaderboard</h2>
+<p>Illustrative example only — live rankings are not available.</p>
 
 <p>🥇 Player Alpha 🇺🇸</p>
 
@@ -189,7 +197,7 @@ Reward:
 
 <h3>Unranked</h3>
 
-<button>View Rankings</button>
+<a href="/ecosystem/labyrinth"><button>Labyrinth &amp; Rankings</button></a>
 
 </div>
 
@@ -198,19 +206,17 @@ Reward:
 
 <h2>🪙 SAL AFRICA</h2>
 
-<p>
-Your Digital Identity Platform
-</p>
+<p>Prototype: Royal ID and balances only.</p>
 
 <p>✔ Royal ID</p>
 
-<p>✔ Digital Wallet</p>
+<p>No wallet transfers or payments</p>
 
 <p>✔ Secure Identity</p>
 
 <p>✔ Future Asset Services</p>
 
-<button>Open SAL AFRICA</button>
+<a href="/ecosystem/sal-africa"><button>Open SAL AFRICA</button></a>
 
 </div>
 
@@ -231,7 +237,7 @@ Luxury Fashion
 Northern Heritage Collection
 </p>
 
-<button>Explore Luxury</button>
+<a href="/ecosystem/luxury"><button>Explore Luxury</button></a>
 
 </div>
 
@@ -244,6 +250,8 @@ Northern Heritage Collection
 Future Championship Destination
 </p>
 
+<p>Under development; not built or accepting bookings.</p>
+
 <p>
 Luxury Accommodation
 </p>
@@ -252,7 +260,7 @@ Luxury Accommodation
 Cultural Experience
 </p>
 
-<button>Discover Resort</button>
+<a href="/ecosystem/resort"><button>Discover Resort</button></a>
 
 </div>
 
@@ -261,15 +269,41 @@ Cultural Experience
 
 <h2>✈️ My Royal Journey</h2>
 
-<p>Visa Assistance</p>
+<p>Visa-assistance enquiries only</p>
 
-<p>Hotel Booking</p>
+<p>Accommodation coordination enquiries only</p>
 
-<p>Airport Pickup</p>
+<p>Airport pickup enquiries only</p>
 
 <p>Future Championship Invitations</p>
 
-<button>Manage Journey</button>
+<a href="/ecosystem/journey"><button>Manage Journey</button></a>
+
+</div>
+
+
+<div class="panel">
+
+<h2>🐎 Polo &amp; Equestrian Park</h2>
+
+<p>Under development</p>
+
+<p>Enquiries open</p>
+
+<a href="/ecosystem/polo"><button>Learn More</button></a>
+
+</div>
+
+
+<div class="panel">
+
+<h2>🐂 Damba Royal Livestock</h2>
+
+<p>Listings and availability</p>
+
+<p>Purchase enquiries</p>
+
+<a href="/ecosystem/livestock"><button>View Livestock</button></a>
 
 </div>
 
@@ -293,6 +327,15 @@ Every challenge you complete earns experience and helps you qualify for future c
 <strong>Founding Player Badge.</strong>
 </p>
 
+{% for n in news %}
+<div class="news-post">
+<p><strong>📢 {{ n.title }}</strong> <small>({{ n.category }} · {{ n.created_at.strftime('%Y-%m-%d') }})</small></p>
+<p>{{ n.body }}</p>
+</div>
+{% endfor %}
+
+{% if is_admin %}<p class="admin-links"><a href="/admin/news">Manage news</a></p>{% endif %}
+
 </section>
 
 
@@ -303,7 +346,7 @@ Every challenge you complete earns experience and helps you qualify for future c
 <div class="eco-grid">
 
 
-<div>
+<a class="eco-link" href="/ecosystem/labyrinth"><div>
 
 <h3>🏰 Royal Labyrinth</h3>
 
@@ -315,25 +358,25 @@ Qualify globally.
 Prepare for the future physical championship.
 </p>
 
-</div>
+</div></a>
 
 
-<div>
+<a class="eco-link" href="/ecosystem/sal-africa"><div>
 
 <h3>🪙 SAL AFRICA</h3>
 
 <p>
-Your secure Royal Identity.
+Royal ID and token balances.
 
-Digital Wallet.
+No wallet transfers or payment services.
 
-Future Asset Platform.
+Asset services are planned, not operational.
 </p>
 
-</div>
+</div></a>
 
 
-<div>
+<a class="eco-link" href="/ecosystem/luxury"><div>
 
 <h3>🛍️ Damba Royal Luxury</h3>
 
@@ -345,10 +388,10 @@ Premium Fashion
 Northern Heritage Collection
 </p>
 
-</div>
+</div></a>
 
 
-<div>
+<a class="eco-link" href="/ecosystem/resort"><div>
 
 <h3>🏨 Royal Resort</h3>
 
@@ -360,29 +403,23 @@ Future championship destination
 Cultural tourism
 </p>
 
-</div>
+</div></a>
 
 
-<div>
+<a class="eco-link" href="/ecosystem/journey"><div>
 
 <h3>✈️ Royal Journey</h3>
 
 <p>
-Visa
-
-Travel
-
-Hotel
-
-Airport Pickup
-
-Future Invitations
+Travel and visa-assistance enquiries only.
+Accommodation and airport pickup coordination requests only.
+Future invitations are not confirmed.
 </p>
 
-</div>
+</div></a>
 
 
-<div>
+<a class="eco-link" href="/ecosystem/polo"><div>
 
 <h3>🐎 Polo & Equestrian Park</h3>
 
@@ -395,6 +432,20 @@ Shows
 
 Royal competitions
 </p>
+
+</div></a>
+
+<div>
+
+<a class="eco-link" href="/ecosystem/livestock"><h3>🐂 Damba Royal Livestock</h3>
+
+<p>
+Livestock listings
+
+Availability
+
+Enquiries
+</p></a>
 
 </div>
 
@@ -424,6 +475,9 @@ qualified players will receive championship invitations.
 </section>
 
 
+<p class="admin-links"><a href="/ecosystem">All ecosystem sections</a>{% if can_livestock %}<a href="/admin/catalog/livestock">Manage livestock</a><a href="/admin/enquiries">Enquiries</a>{% endif %}{% if is_admin %}<a href="/admin/catalog/luxury">Manage luxury</a>{% endif %}</p>
+<form action="/auth/logout" method="post"><input type="hidden" name="csrf" value="{{ csrf }}"><button type="submit">Log out</button></form>
+
 <footer>
 
 <h2>👑 DAMBA ROYAL</h2>
@@ -447,6 +501,7 @@ Building Africa's Global Heritage Ecosystem
 <p>
 © 2026 Damba Royal. All Rights Reserved.
 </p>
+<p>Contact: <a href="mailto:dambaroyal@gmail.com">dambaroyal@gmail.com</a></p>
 
 </footer>
 

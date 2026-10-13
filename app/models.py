@@ -1,7 +1,11 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, UniqueConstraint
-from datetime import datetime
+from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, UniqueConstraint
+from datetime import datetime, timezone
 
 from app.database import Base
+
+
+def utcnow():
+    return datetime.now(timezone.utc).replace(tzinfo=None)
 
 
 class Player(Base):
@@ -18,7 +22,7 @@ class Player(Base):
     xp = Column(Integer, default=0)
     royal_tokens = Column(Integer, default=0)
 
-    level = Column(String, default="Explorer")
+    level = Column(String, default="Unranked")
     badge = Column(String, default="Founding Player")
 
 
@@ -69,11 +73,7 @@ class ChallengeAttempt(Base):
         default=0
     )
 
-    completed_at = Column(
-        DateTime,
-        default=datetime.utcnow,
-        nullable=False
-    )
+    completed_at = Column(DateTime, default=utcnow, nullable=False)
 
     __table_args__ = (
         UniqueConstraint(
@@ -82,3 +82,46 @@ class ChallengeAttempt(Base):
             name="uq_player_challenge"
         ),
     )
+
+
+
+class NewsPost(Base):
+    __tablename__ = "news_posts"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, nullable=False)
+    body = Column(Text, nullable=False)
+    category = Column(String, nullable=False, default="General")
+    published = Column(Boolean, nullable=False, default=False)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+    updated_at = Column(DateTime, default=utcnow, nullable=False)
+
+
+class CatalogItem(Base):
+    """Livestock listings and Damba Royal Luxury products."""
+
+    __tablename__ = "catalog_items"
+
+    id = Column(Integer, primary_key=True, index=True)
+    section = Column(String, nullable=False, index=True)
+    name = Column(String, nullable=False)
+    category = Column(String, nullable=False, default="")
+    description = Column(Text, nullable=False, default="")
+    price_note = Column(String, nullable=False, default="")
+    status = Column(String, nullable=False, default="available")
+    published = Column(Boolean, nullable=False, default=True)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+    updated_at = Column(DateTime, default=utcnow, nullable=False)
+
+
+class Enquiry(Base):
+    __tablename__ = "enquiries"
+
+    id = Column(Integer, primary_key=True, index=True)
+    player_id = Column(Integer, ForeignKey("players.id"), nullable=False, index=True)
+    section = Column(String, nullable=False, index=True)
+    subject = Column(String, nullable=False, default="")
+    message = Column(Text, nullable=False)
+    contact = Column(String, nullable=False, default="")
+    item_id = Column(Integer, nullable=True)
+    created_at = Column(DateTime, default=utcnow, nullable=False)

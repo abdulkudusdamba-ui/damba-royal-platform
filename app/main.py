@@ -1,3 +1,6 @@
+import os
+import secrets
+
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -6,11 +9,33 @@ from starlette.middleware.sessions import SessionMiddleware
 from sqlalchemy.exc import IntegrityError
 
 from app.database import engine, SessionLocal
+from app.csrf import csrf_token, verify_csrf
 from app.models import Base, Player, ChallengeAttempt
 from app.routes.auth import router as auth_router
+from app.routes.ecosystem import (
+    router as ecosystem_router, LoginRequired, seed_news, published_news,
+    is_admin, can_manage_catalog,
+)
 from app.challenges import get_all_challenges, get_challenge
+from app.live.models import LiveRoom
+from app.routes.live import router as live_router
+from app.routes.live_match import router as live_match_router
 
 
+def _load_session_secret() -> str:
+    secret = os.environ.get("SESSION_SECRET_KEY")
+    if secret:
+        if len(secret.encode("utf-8")) < 32:
+            raise RuntimeError("SESSION_SECRET_KEY must be at least 32 bytes.")
+        return secret
+    if os.environ.get("APP_ENV", "development").lower() == "production":
+        raise RuntimeError(
+            "SESSION_SECRET_KEY must be set when APP_ENV=production."
+        )
+    return secrets.token_urlsafe(48)
+
+
+session_secret = _load_session_secret()
 app = FastAPI(title="Damba Royal")
 
 
@@ -20,14 +45,21 @@ app = FastAPI(title="Damba Royal")
 
 Base.metadata.create_all(bind=engine)
 
+_seed_db = SessionLocal()
+try:
+    seed_news(_seed_db)
+finally:
+    _seed_db.close()
+
 
 # =========================================================
 # SESSIONS
 # =========================================================
-
 app.add_middleware(
     SessionMiddleware,
-    secret_key="damba-royal-founders-era-secret-key-change-later"
+    secret_key=session_secret,
+    same_site="lax",
+    https_only=os.environ.get("APP_ENV", "development").lower() == "production",
 )
 
 
@@ -75,7 +107,7 @@ async def login_page(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="login.html",
-        context={}
+        context={"csrf": csrf_token(request)}
     )
 
 
@@ -89,7 +121,7 @@ async def register_page(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="register.html",
-        context={}
+        context={"csrf": csrf_token(request)}
     )
 
 
@@ -132,7 +164,11 @@ async def dashboard(request: Request):
             request=request,
             name="dashboard.html",
             context={
-                "player": player
+                "player": player,
+                "news": published_news(db),
+                "is_admin": is_admin(player),
+                "can_livestock": can_manage_catalog(player, "livestock"),
+                "csrf": csrf_token(request),
             }
         )
 
@@ -160,7 +196,7 @@ async def challenge(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="challenge.html",
-        context={}
+        context={"csrf": csrf_token(request)}
     )
 
 
@@ -296,8 +332,10 @@ async def complete_challenge(
     request: Request,
     challenge_id: str,
     answer: str = Form(...),
-    time_left: int = Form(0)
+    time_left: int = Form(0),
+    csrf: str = Form("")
 ):
+    verify_csrf(request, csrf)
 
     # -----------------------------------------------------
     # AUTHENTICATION
@@ -719,3 +757,12 @@ async def api_player(request: Request):
 app.include_router(
     auth_router
 )
+
+@app.exception_handler(LoginRequired)
+async def login_required_handler(request: Request, exc: LoginRequired):
+    return RedirectResponse(url="/login", status_code=303)
+
+
+app.include_router(ecosystem_router)
+app.include_router(live_router)
+app.include_router(live_match_router)

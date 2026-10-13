@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#100d2d">
+    <meta name="csrf-token" content="{{ csrf }}">
+    <title>Online Arena | Damba Royal</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --indigo: #100d2d;
+            --indigo-soft: #201a4c;
+            --gold: #d9b66f;
+            --gold-light: #f1d899;
+            --paper: #f8f4eb;
+            --muted: #c2bdd2;
+            --line: rgba(241, 216, 153, .24);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--paper);
+            font: 16px/1.55 Inter, ui-sans-serif, system-ui, sans-serif;
+            background:
+                radial-gradient(ellipse at 50% 0, #352b70 0, transparent 48%),
+                linear-gradient(145deg, #17133c, var(--indigo) 65%);
+        }
+        a { color: var(--gold-light); }
+        .shell { width: min(1080px, 92%); margin: auto; }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 22px 0;
+            border-bottom: 1px solid var(--line);
+        }
+        .brand { color: var(--gold-light); font: 700 17px/1.2 Georgia, serif; letter-spacing: 2px; }
+        .brand span { display: block; margin-top: 5px; color: var(--muted); font: 600 10px/1.2 system-ui, sans-serif; letter-spacing: 1.5px; }
+        .back-link { font-size: 13px; }
+        main { padding: 62px 0 80px; }
+        .intro { max-width: 700px; margin: 0 auto 35px; text-align: center; }
+        .eyebrow { color: var(--gold-light); font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; }
+        h1, h2 { font-family: Georgia, "Times New Roman", serif; }
+        h1 { margin: 10px 0; color: var(--gold-light); font-size: clamp(32px, 6vw, 52px); line-height: 1.1; }
+        .intro p { color: var(--muted); }
+        .entry-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+        .card {
+            padding: clamp(22px, 4vw, 34px);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: linear-gradient(145deg, rgba(39, 32, 86, .96), rgba(23, 19, 59, .96));
+            box-shadow: 0 22px 55px rgba(0, 0, 0, .22);
+        }
+        .card h2 { margin: 0 0 8px; color: var(--gold-light); }
+        .card p, .hint { color: var(--muted); }
+        label { display: block; margin: 22px 0 7px; font-size: 12px; font-weight: 700; }
+        input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid var(--line);
+            border-radius: 11px;
+            outline-color: var(--gold);
+            background: #100d2d;
+            color: var(--paper);
+            font: inherit;
+            text-transform: uppercase;
+        }
+        button {
+            min-height: 46px;
+            padding: 12px 18px;
+            border: 1px solid var(--gold-light);
+            border-radius: 11px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: #201943;
+            font: 800 12px/1.3 system-ui, sans-serif;
+            letter-spacing: .8px;
+            cursor: pointer;
+        }
+        button:hover:not(:disabled) { filter: brightness(1.08); }
+        button:disabled { opacity: .48; cursor: not-allowed; }
+        .card button { width: 100%; margin-top: 16px; }
+        .error { min-height: 25px; margin: 18px 0 0; color: #ffb9b2; text-align: center; }
+        [hidden] { display: none !important; }
+        .lobby { max-width: 780px; margin: 0 auto; }
+        .room-code { margin: 8px 0 20px; color: var(--gold-light); font: 800 clamp(30px, 8vw, 48px)/1 Georgia, serif; letter-spacing: 8px; }
+        .players { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+        .player {
+            padding: 18px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: rgba(16, 13, 45, .6);
+        }
+        .player strong { display: block; color: var(--gold-light); }
+        .player span { color: var(--muted); font-size: 13px; }
+        .lobby-actions { display: flex; gap: 12px; margin-top: 22px; }
+        .lobby-actions button { flex: 1; }
+        .status { min-height: 26px; color: var(--muted); }
+        @media (max-width: 650px) {
+            main { padding: 40px 0 55px; }
+            .entry-grid { grid-template-columns: 1fr; }
+            .players { grid-template-columns: 1fr; }
+            .lobby-actions { flex-direction: column; }
+            header { align-items: flex-start; }
+        }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <header>
+            <div class="brand">DAMBA ROYAL<span>FOUNDERS ERA · ONLINE ARENA</span></div>
+            <a class="back-link" href="/dashboard">Return to dashboard</a>
+        </header>
+        <main>
+            <section class="intro">
+                <div class="eyebrow">Two-player competition</div>
+                <h1>Enter the Royal Arena</h1>
+                <p>Create a private room or join another player with their room code. Both competitors must be ready before the host can begin.</p>
+            </section>
+            <section id="entry" class="entry-grid" aria-label="Create or join a competition">
+                <article class="card">
+                    <h2>Open a chamber</h2>
+                    <p>Create a room and invite one authenticated player to join.</p>
+                    <button id="createButton" type="button">CREATE A ROOM</button>
+                </article>
+                <form id="joinForm" class="card">
+                    <h2>Join a challenger</h2>
+                    <p>Enter the six-character code shared by the room host.</p>
+                    <label for="roomCodeInput">Room code</label>
+                    <input id="roomCodeInput" name="room_code" maxlength="6" minlength="6" autocomplete="off" required>
+                    <button type="submit">JOIN THE ROOM</button>
+                </form>
+            </section>
+            <section id="lobby" class="card lobby" hidden aria-live="polite">
+                <div class="eyebrow">Competition lobby</div>
+                <h2>Room code</h2>
+                <p id="roomCodeDisplay" class="room-code"></p>
+                <p id="status" class="status">Waiting for your challenger…</p>
+                <div id="players" class="players"></div>
+                <div class="lobby-actions">
+                    <button id="readyButton" type="button">MARK READY</button>
+                    <button id="startButton" type="button" hidden disabled>START COMPETITION</button>
+                </div>
+                <p class="hint">Share this room code with one player. The match starts only when both players are ready.</p>
+            </section>
+            <p id="error" class="error" role="alert" aria-live="assertive"></p>
+        </main>
+    </div>
+    <script>
+        const initialRoomCode = {{ room_code|default("", true)|tojson }};
+        const errorBox = document.getElementById("error");
+        let roomCode = initialRoomCode;
+        let roomState = null;
+        let pollTimer = null;
+
+        function showError(message) {
+            errorBox.textContent = message || "The request could not be completed. Please try again.";
+        }
+
+        async function api(url, options = {}) {
+            if (options.method === "POST") {
+                options.headers = {
+                    ...options.headers,
+                    "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
+                };
+            }
+            const response = await fetch(url, options);
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(data.detail || "The request could not be completed.");
+            return data;
+        }
+
+        async function enterRoom(code) {
+            roomCode = code.toUpperCase();
+            window.history.replaceState({}, "", `/live/${encodeURIComponent(roomCode)}`);
+            document.getElementById("entry").hidden = true;
+            document.getElementById("lobby").hidden = false;
+            document.getElementById("roomCodeDisplay").textContent = roomCode;
+            await refreshRoom();
+            clearInterval(pollTimer);
+            pollTimer = setInterval(refreshRoom, 1500);
+        }
+
+        async function refreshRoom() {
+            if (!roomCode) return;
+            try {
+                roomState = await api(`/api/live/rooms/${encodeURIComponent(roomCode)}`);
+                if (roomState.status === "active" || roomState.status === "complete") {
+                    window.location.assign(`/live/${encodeURIComponent(roomCode)}/match`);
+                    return;
+                }
+                renderRoom();
+            } catch (error) {
+                clearInterval(pollTimer);
+                showError(error.message);
+            }
+        }
+
+        function renderRoom() {
+            const players = document.getElementById("players");
+            players.replaceChildren();
+            roomState.players.forEach((player, index) => {
+                const card = document.createElement("div");
+                card.className = "player";
+                const name = document.createElement("strong");
+                name.textContent = player.alias + (player.is_you ? " · YOU" : "");
+                const ready = document.createElement("span");
+                ready.textContent = player.ready ? "Ready" : "Not ready";
+                card.append(name, ready);
+                players.append(card);
+            });
+            document.getElementById("status").textContent =
+                `${roomState.player_count}/2 players in the chamber`;
+            const readyButton = document.getElementById("readyButton");
+            const you = roomState.players.find(player => player.is_you);
+            readyButton.hidden = !you || you.ready;
+            readyButton.disabled = !you || you.ready;
+            const startButton = document.getElementById("startButton");
+            startButton.hidden = !you || !roomState.players[0].is_you;
+            startButton.disabled = !roomState.can_start;
+        }
+
+        document.getElementById("createButton").addEventListener("click", async () => {
+            errorBox.textContent = "";
+            try {
+                const data = await api("/api/live/rooms", { method: "POST" });
+                await enterRoom(data.room_code);
+            } catch (error) { showError(error.message); }
+        });
+
+        document.getElementById("joinForm").addEventListener("submit", async event => {
+            event.preventDefault();
+            errorBox.textContent = "";
+            try {
+                const data = await api("/api/live/rooms/join", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams(new FormData(event.currentTarget))
+                });
+                await enterRoom(data.room_code);
+            } catch (error) { showError(error.message); }
+        });
+
+        document.getElementById("readyButton").addEventListener("click", async () => {
+            try {
+                await api(`/api/live/rooms/${encodeURIComponent(roomCode)}/ready`, { method: "POST" });
+                await refreshRoom();
+            } catch (error) { showError(error.message); }
+        });
+
+        document.getElementById("startButton").addEventListener("click", async () => {
+            try {
+                await api(`/api/live/rooms/${encodeURIComponent(roomCode)}/start`, { method: "POST" });
+                window.location.assign(`/live/${encodeURIComponent(roomCode)}/match`);
+            } catch (error) { showError(error.message); }
+        });
+
+        if (roomCode) enterRoom(roomCode).catch(error => showError(error.message));
+    </script>
+</body>
+</html>
