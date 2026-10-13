@@ -1,24 +1,27 @@
-from fastapi import FastAPI, Request, Form
+import os
+
+from fastapi import FastAPI, HTTPException, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 from sqlalchemy.exc import IntegrityError
 
-from app.database import engine, SessionLocal
-from app.models import Base, Player, ChallengeAttempt
+from app.database import SessionLocal
+from app.middleware import OriginCSRFMiddleware, SharedRateLimitMiddleware
+from app.models import Player, ChallengeAttempt
 from app.routes.auth import router as auth_router
 from app.challenges import get_all_challenges, get_challenge
 
 
+session_secret = os.getenv("SESSION_SECRET_KEY")
+if not session_secret or len(session_secret.encode("utf-8")) < 32:
+    raise RuntimeError("SESSION_SECRET_KEY must contain at least 32 bytes.")
+
 app = FastAPI(title="Damba Royal")
-
-
-# =========================================================
-# DATABASE
-# =========================================================
-
-Base.metadata.create_all(bind=engine)
+app.add_middleware(SharedRateLimitMiddleware)
+app.add_middleware(OriginCSRFMiddleware)
+production_environment = os.getenv("APP_ENV", "development").lower() == "production"
 
 
 # =========================================================
@@ -27,7 +30,11 @@ Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     SessionMiddleware,
-    secret_key="damba-royal-founders-era-secret-key-change-later"
+    secret_key=session_secret,
+    max_age=int(os.getenv("SESSION_MAX_AGE_SECONDS", "3600")),
+    same_site="lax",
+    https_only=production_environment
+    or os.getenv("SESSION_COOKIE_SECURE", "false").lower() == "true",
 )
 
 
@@ -178,11 +185,7 @@ async def get_next_challenge(request: Request):
     player_id = request.session.get("player_id")
 
     if not player_id:
-
-        return {
-            "success": False,
-            "error": "Not authenticated"
-        }
+        raise HTTPException(status_code=401, detail="Not authenticated.")
 
 
     # -----------------------------------------------------
@@ -306,11 +309,7 @@ async def complete_challenge(
     player_id = request.session.get("player_id")
 
     if not player_id:
-
-        return {
-            "success": False,
-            "error": "Not authenticated"
-        }
+        raise HTTPException(status_code=401, detail="Not authenticated.")
 
 
     # -----------------------------------------------------
@@ -658,10 +657,7 @@ async def api_player(request: Request):
     player_id = request.session.get("player_id")
 
     if not player_id:
-
-        return {
-            "error": "Not authenticated"
-        }
+        raise HTTPException(status_code=401, detail="Not authenticated.")
 
 
     db = SessionLocal()

@@ -1,15 +1,16 @@
-from fastapi import APIRouter, Form, Request
+from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.responses import RedirectResponse
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.database import SessionLocal
 from app.models import Player
 from app.security import hash_password, verify_password
 
-router = APIRouter(
-    prefix="/auth",
-    tags=["Authentication"]
-)
+
+router = APIRouter(prefix="/auth", tags=["Authentication"])
+DUMMY_PASSWORD_HASH = hash_password("invalid-login-placeholder")
 
 
 def generate_royal_id(player_id: int, country: str):
@@ -23,11 +24,9 @@ def generate_royal_id(player_id: int, country: str):
         "Japan": "JPN",
         "Germany": "DEU",
         "Brazil": "BRA",
-        "South Africa": "ZAF"
+        "South Africa": "ZAF",
     }
-
     code = country_codes.get(country, "INT")
-
     return f"DR-{code}-2026-{player_id:06d}"
 
 
@@ -37,127 +36,64 @@ def register(
     email: str = Form(...),
     country: str = Form(...),
     alias: str = Form(...),
-    password: str = Form(...)
+    password: str = Form(...),
 ):
-    print("========== REGISTER ROUTE HIT ==========")
-    print("Full Name:", full_name)
-    print("Email:", email)
-    print("Country:", country)
-    print("Alias:", alias)
-
     db: Session = SessionLocal()
-
     try:
-        existing_email = (
-            db.query(Player)
-            .filter(Player.email == email)
-            .first()
-        )
-
-        if existing_email:
-            return {
-                "status": "error",
-                "message": "Email already registered."
-            }
-
-        existing_alias = (
-            db.query(Player)
-            .filter(Player.alias == alias)
-            .first()
-        )
-
-        if existing_alias:
-            return {
-                "status": "error",
-                "message": "Player alias already taken."
-            }
-
         player = Player(
-            royal_id="TEMP",
-            full_name=full_name,
-            email=email,
+            full_name=full_name.strip(),
+            email=email.strip().lower(),
             country=country,
-            alias=alias,
-            password=hash_password(password),
+            alias=alias.strip(),
             xp=0,
             royal_tokens=0,
             level="Explorer",
-            badge="Founding Player"
+            badge="Founding Player",
         )
-
+        setattr(player, "password", hash_password(password))
         db.add(player)
+        db.flush()
+        player.royal_id = generate_royal_id(player.id, player.country)
         db.commit()
-        db.refresh(player)
-
-        player.royal_id = generate_royal_id(
-            player.id,
-            player.country
-        )
-
-        db.commit()
-
-        print("========== PLAYER CREATED ==========")
-        print("Royal ID:", player.royal_id)
-        print("Player ID:", player.id)
-
-        return RedirectResponse(
-            url="/login",
-            status_code=303
-        )
-
+    except ValueError:
+        db.rollback()
+        raise HTTPException(status_code=422, detail="Invalid registration details.")
+    except IntegrityError:
+        db.rollback()
     finally:
         db.close()
+
+    return RedirectResponse(url="/login", status_code=303)
 
 
 @router.post("/login")
 def login(
     request: Request,
     email: str = Form(...),
-    password: str = Form(...)
+    password: str = Form(...),
 ):
-    print("========== LOGIN ROUTE HIT ==========")
-    print("Email:", email)
-
     db: Session = SessionLocal()
-
     try:
         player = (
             db.query(Player)
-            .filter(Player.email == email)
+            .filter(func.lower(Player.email) == email.strip().lower())
             .first()
         )
+        stored_password = player.password if player else DUMMY_PASSWORD_HASH
+        if not verify_password(password, stored_password) or not player:
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid email or password.",
+            )
 
-        if not player:
-            return {
-                "status": "error",
-                "message": "Invalid email or password."
-            }
-
-        if not verify_password(password, player.password):
-            return {
-                "status": "error",
-                "message": "Invalid email or password."
-            }
-
+        request.session.clear()
         request.session["player_id"] = player.id
-
-        print("========== LOGIN SUCCESS ==========")
-        print("Royal ID:", player.royal_id)
-
-        return RedirectResponse(
-            url="/dashboard",
-            status_code=303
-        )
-
+        return RedirectResponse(url="/dashboard", status_code=303)
     finally:
         db.close()
 
 
-@router.get("/logout")
+@router.post("/logout")
 def logout(request: Request):
     request.session.clear()
-
-    return RedirectResponse(
-        url="/",
-        status_code=303
-    )
+    return RedirectResponse(url="/", status_code=303)
