@@ -6,24 +6,19 @@
 
     <title>Royal Labyrinth | Damba Royal</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
     <style>
         :root {
             --ivory: #f7f2e7;
             --cream: #fffdf7;
             --paper: #ffffff;
-            --emerald: #123f32;
-            --emerald-dark: #0b2b22;
-            --emerald-light: #1f5b49;
+            --emerald: #211a4b;
+            --emerald-dark: #100d2d;
+            --emerald-light: #382f73;
             --gold: #c6a15b;
             --gold-light: #e5c987;
             --gold-soft: #f1e3bd;
-            --text: #17231e;
-            --muted: #6b746f;
+            --text: #191538;
+            --muted: #6b6680;
             --border: #e7dcc5;
             --success: #27724d;
             --shadow: 0 18px 50px rgba(35, 47, 40, 0.12);
@@ -39,9 +34,9 @@
             font-family: "Inter", sans-serif;
             color: var(--text);
             background:
-                radial-gradient(circle at 10% 10%, rgba(198,161,91,0.13), transparent 25%),
-                radial-gradient(circle at 90% 20%, rgba(18,63,50,0.09), transparent 28%),
-                linear-gradient(135deg, #faf6ec 0%, #f3eee2 48%, #fffdf8 100%);
+                radial-gradient(circle at 10% 10%, rgba(198,161,91,0.12), transparent 25%),
+                radial-gradient(circle at 90% 20%, rgba(93,77,171,0.24), transparent 30%),
+                linear-gradient(145deg, #191540 0%, #100d2d 58%, #0b0921 100%);
             min-height: 100vh;
         }
 
@@ -51,8 +46,8 @@
 
         .topbar {
             height: 76px;
-            background: rgba(255, 253, 247, 0.94);
-            border-bottom: 1px solid var(--border);
+            background: rgba(16, 13, 45, 0.96);
+            border-bottom: 1px solid rgba(229,201,135,0.38);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -81,7 +76,7 @@
             font-family: "Cinzel", serif;
             font-weight: 700;
             font-size: 17px;
-            background: #fffaf0;
+            background: #211a4b;
         }
 
         .brand-text strong {
@@ -89,12 +84,12 @@
             font-family: "Cinzel", serif;
             letter-spacing: 2px;
             font-size: 16px;
-            color: var(--emerald);
+            color: var(--gold-light);
         }
 
         .brand-text span {
             font-size: 11px;
-            color: var(--muted);
+            color: #c2bdd2;
             letter-spacing: 1px;
         }
 
@@ -102,7 +97,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            color: var(--emerald);
+            color: var(--gold-light);
             font-size: 13px;
             font-weight: 700;
         }
@@ -152,7 +147,7 @@
 
         .hero h1 {
             font-family: "Cinzel", serif;
-            color: var(--emerald);
+            color: var(--gold-light);
             font-size: clamp(32px, 5vw, 54px);
             line-height: 1.05;
             letter-spacing: 1px;
@@ -160,7 +155,7 @@
         }
 
         .hero p {
-            color: var(--muted);
+            color: #d4cee3;
             font-size: 15px;
         }
 
@@ -175,26 +170,67 @@
             margin-bottom: 26px;
         }
 
+        .chamber-route {
+            margin-bottom: 26px;
+            padding: 20px;
+            border: 1px solid rgba(229,201,135,0.28);
+            border-radius: 18px;
+            background: linear-gradient(145deg, rgba(39,32,86,0.94), rgba(20,16,54,0.96));
+        }
+
+        .chamber-route h2 {
+            margin-bottom: 6px;
+            color: var(--gold-light);
+            font-family: "Cinzel", serif;
+            font-size: 17px;
+        }
+
+        .chamber-route p {
+            margin-bottom: 15px;
+            color: #c2bdd2;
+            font-size: 12px;
+        }
+
+        .chamber-list {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 9px;
+        }
+
+        .chamber-node {
+            min-height: 58px;
+            display: grid;
+            place-items: center;
+            padding: 10px;
+            border: 1px solid rgba(229,201,135,0.3);
+            border-radius: 11px;
+            color: #f7f2e7;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            background: rgba(16,13,45,0.6);
+        }
+
         .stat-card {
-            background: rgba(255,255,255,0.88);
-            border: 1px solid var(--border);
+            background: linear-gradient(145deg, rgba(39,32,86,0.98), rgba(27,23,66,0.98));
+            border: 1px solid rgba(229,201,135,0.28);
             border-radius: 16px;
             padding: 18px 20px;
-            box-shadow: 0 8px 25px rgba(35,47,40,0.06);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
         }
 
         .stat-label {
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: var(--muted);
+            color: #c2bdd2;
             margin-bottom: 7px;
             font-weight: 700;
         }
 
         .stat-value {
             font-size: 23px;
-            color: var(--emerald);
+            color: var(--gold-light);
             font-weight: 800;
         }
 
@@ -205,10 +241,10 @@
         .arena {
             background:
                 radial-gradient(circle at 50% 0%, rgba(229,201,135,0.15), transparent 35%),
-                linear-gradient(145deg, #174b3b, #0e3329);
+                linear-gradient(145deg, #302765, #100d2d);
             border-radius: 28px;
             padding: 9px;
-            box-shadow: 0 25px 70px rgba(18,63,50,0.22);
+            box-shadow: 0 25px 70px rgba(0,0,0,0.32);
             position: relative;
             overflow: hidden;
         }
@@ -549,6 +585,26 @@
             margin-bottom: 25px;
         }
 
+        .completion-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .completion-actions a {
+            display: inline-block;
+            padding: 12px 16px;
+            border: 1px solid var(--gold);
+            border-radius: 11px;
+            color: var(--emerald);
+            background: #fffaf0;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
         .master-card {
             background: linear-gradient(145deg, #174b3b, #0c3026);
             color: white;
@@ -615,13 +671,13 @@
         footer {
             text-align: center;
             padding: 35px 20px;
-            color: #858b86;
+            color: #c2bdd2;
             font-size: 11px;
             letter-spacing: 0.7px;
         }
 
         footer strong {
-            color: var(--emerald);
+            color: var(--gold-light);
         }
 
         /* =========================
@@ -645,6 +701,10 @@
 
             .stats {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .chamber-list {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             .arena-inner {
@@ -735,10 +795,10 @@
             Royal Labyrinth
         </div>
 
-        <h1>The Digital Training Arena</h1>
+        <h1>The Royal Heritage Labyrinth</h1>
 
         <p>
-            Train online. Qualify worldwide.
+            Season Zero · Founders Era training
         </p>
 
     </section>
@@ -768,6 +828,21 @@
             <div class="stat-value" id="tokens">0</div>
         </div>
 
+    </section>
+
+
+    <section class="chamber-route" aria-label="Available training chambers">
+        <h2>Founders Era Chambers</h2>
+        <p>Explore the existing training catalog. Missions open one at a time and your completed progress is preserved.</p>
+        <div class="chamber-list">
+            <div class="chamber-node">Royal Gates</div>
+            <div class="chamber-node">Observation</div>
+            <div class="chamber-node">Memory</div>
+            <div class="chamber-node">Strategy</div>
+            <div class="chamber-node">Maze</div>
+            <div class="chamber-node">Pattern &amp; Reaction</div>
+            <div class="chamber-node">Archive Logic</div>
+        </div>
     </section>
 
 
@@ -905,7 +980,7 @@
                     👑
                 </div>
 
-                <h2>Royal Labyrinth Master</h2>
+                <h2>Training cycle complete</h2>
 
                 <p>
                     You have completed every available Royal Labyrinth
@@ -914,13 +989,18 @@
 
                 <div class="master-card">
 
-                    <strong>FOUNDERS ERA ACHIEVEMENT</strong>
+                    <strong>FOUNDERS ERA TRAINING</strong>
 
                     <span>
                         Continue training as new chambers and missions
                         are introduced.
                     </span>
 
+                </div>
+
+                <div class="completion-actions">
+                    <a href="/dashboard">RETURN TO DASHBOARD</a>
+                    <a href="/live">ENTER ONLINE COMPETITION</a>
                 </div>
 
             </div>
@@ -966,7 +1046,7 @@
                 player.royal_id || "—";
 
             document.getElementById("level").textContent =
-                player.level || "Explorer";
+                player.level || "Unranked";
 
             document.getElementById("xp").textContent =
                 `${player.xp || 0} XP`;
@@ -1091,11 +1171,13 @@
             document.getElementById("sequence").textContent =
                 challenge.target;
 
-        } else if (challenge.sequence) {
+        } else if (challenge.display_sequence || challenge.memory_sequence || challenge.sequence) {
 
             document.getElementById("sequence").style.display = "block";
 
             document.getElementById("sequence").textContent =
+                challenge.display_sequence ||
+                challenge.memory_sequence ||
                 challenge.sequence;
 
         } else {

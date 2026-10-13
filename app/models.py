@@ -18,7 +18,7 @@ class Player(Base):
     xp = Column(Integer, default=0)
     royal_tokens = Column(Integer, default=0)
 
-    level = Column(String, default="Explorer")
+    level = Column(String, default="Unranked")
     badge = Column(String, default="Founding Player")
 
 

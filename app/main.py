@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -7,11 +8,17 @@ from sqlalchemy.exc import IntegrityError
 
 from app.database import engine, SessionLocal
 from app.models import Base, Player, ChallengeAttempt
+from app.live.models import LiveRoom
 from app.routes.auth import router as auth_router
+from app.routes.live import router as live_router
+from app.routes.live_match import router as live_match_router
 from app.challenges import get_all_challenges, get_challenge
 
 
 app = FastAPI(title="Damba Royal")
+session_secret = os.environ.get("SESSION_SECRET")
+if not session_secret:
+    raise RuntimeError("Set SESSION_SECRET before starting Damba Royal.")
 
 
 # =========================================================
@@ -27,7 +34,7 @@ Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     SessionMiddleware,
-    secret_key="damba-royal-founders-era-secret-key-change-later"
+    secret_key=session_secret
 )
 
 
@@ -719,3 +726,6 @@ async def api_player(request: Request):
 app.include_router(
     auth_router
 )
+
+app.include_router(live_router)
+app.include_router(live_match_router)

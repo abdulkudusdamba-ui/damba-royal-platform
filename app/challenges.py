@@ -499,6 +499,96 @@ CHALLENGES = [
         "xp_incorrect": 10,
         "tokens_incorrect": 5,
     },
+
+    {
+        "id": "mission-019",
+        "title": "The Scribe's Seals",
+        "category": "Archive Chamber",
+        "description": (
+            "Three seals guard the royal archive: Sun, Moon, and Crown. "
+            "The scribe has left two clues for the correct order."
+        ),
+        "instruction": (
+            "The Sun is left of the Moon, and the Crown is right of the Moon. "
+            "Which sequence follows both clues?"
+        ),
+        "options": [
+            {"id": "1", "label": "Sun → Moon → Crown"},
+            {"id": "2", "label": "Moon → Sun → Crown"},
+            {"id": "3", "label": "Crown → Sun → Moon"},
+        ],
+        "correct_answer": "1",
+        "time_limit": 50,
+        "score": {
+            "correct": 90,
+            "incorrect": 0,
+            "time_bonus": 1,
+            "max_time_bonus": 40,
+        },
+        "xp_correct": 150,
+        "tokens_correct": 75,
+        "xp_incorrect": 10,
+        "tokens_incorrect": 5,
+    },
+
+    {
+        "id": "mission-020",
+        "title": "Signal at Dusk",
+        "category": "Pattern & Reaction",
+        "description": (
+            "The watchkeeper repeats a three-beat signal so the night "
+            "guards can recognize the safe passage."
+        ),
+        "instruction": "Which two marks come next in the repeating call?",
+        "display_sequence": "🔔 · 🛡️ · 🐎 | 🔔 · 🛡️ · 🐎",
+        "options": [
+            {"id": "1", "label": "Bell → Shield"},
+            {"id": "2", "label": "Shield → Horse"},
+            {"id": "3", "label": "Horse → Bell"},
+        ],
+        "correct_answer": "1",
+        "time_limit": 40,
+        "score": {
+            "correct": 95,
+            "incorrect": 0,
+            "time_bonus": 1,
+            "max_time_bonus": 30,
+        },
+        "xp_correct": 155,
+        "tokens_correct": 80,
+        "xp_incorrect": 10,
+        "tokens_incorrect": 5,
+    },
+
+    {
+        "id": "mission-021",
+        "title": "The Council's Wager",
+        "category": "Strategy Chamber",
+        "description": (
+            "A caravan is carrying its only royal token through an unfamiliar "
+            "district. The council must choose between a known route and a shortcut."
+        ),
+        "instruction": (
+            "If protecting the token is the priority, which route avoids "
+            "taking an unknown risk?"
+        ),
+        "options": [
+            {"id": "1", "label": "Inspected passage — confirmed clear"},
+            {"id": "2", "label": "Unmapped shortcut — conditions unknown"},
+        ],
+        "correct_answer": "1",
+        "time_limit": 45,
+        "score": {
+            "correct": 85,
+            "incorrect": 0,
+            "time_bonus": 1,
+            "max_time_bonus": 35,
+        },
+        "xp_correct": 145,
+        "tokens_correct": 75,
+        "xp_incorrect": 10,
+        "tokens_incorrect": 5,
+    },
 ]
 
 
