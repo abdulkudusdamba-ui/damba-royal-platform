@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, UniqueConstraint
 from datetime import datetime
 
 from app.database import Base
@@ -82,3 +82,46 @@ class ChallengeAttempt(Base):
             name="uq_player_challenge"
         ),
     )
+
+
+
+class NewsPost(Base):
+    __tablename__ = "news_posts"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, nullable=False)
+    body = Column(Text, nullable=False)
+    category = Column(String, nullable=False, default="General")
+    published = Column(Boolean, nullable=False, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+
+class CatalogItem(Base):
+    """Livestock listings and Damba Royal Luxury products."""
+
+    __tablename__ = "catalog_items"
+
+    id = Column(Integer, primary_key=True, index=True)
+    section = Column(String, nullable=False, index=True)
+    name = Column(String, nullable=False)
+    category = Column(String, nullable=False, default="")
+    description = Column(Text, nullable=False, default="")
+    price_note = Column(String, nullable=False, default="")
+    status = Column(String, nullable=False, default="available")
+    published = Column(Boolean, nullable=False, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+
+class Enquiry(Base):
+    __tablename__ = "enquiries"
+
+    id = Column(Integer, primary_key=True, index=True)
+    player_id = Column(Integer, ForeignKey("players.id"), nullable=False, index=True)
+    section = Column(String, nullable=False, index=True)
+    subject = Column(String, nullable=False, default="")
+    message = Column(Text, nullable=False)
+    contact = Column(String, nullable=False, default="")
+    item_id = Column(Integer, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)

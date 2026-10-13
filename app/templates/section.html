@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}{{ s.title }} · Damba Royal{% endblock %}
+{% block content %}
+<p><a href="/ecosystem">← Ecosystem</a></p>
+<h1 class="eco-h1">{{ s.icon }} {{ s.title }}</h1>
+<p class="eco-lead">{{ s.tagline }}</p>
+<p><span class="eco-badge">{{ s.status }}</span></p>
+
+<section class="eco-panel"><h2>Purpose</h2><p>{{ s.purpose }}</p></section>
+<section class="eco-panel"><h2>Planned features</h2><ul>{% for f in s.features %}<li>{{ f }}</li>{% endfor %}</ul></section>
+<section class="eco-panel"><h2>Current availability</h2><p>{{ s.availability }}</p></section>
+<section class="eco-panel"><h2>Next steps</h2><p>{{ s.next_steps }}</p>
+{% if s.cta %}<p><a class="eco-btn" href="{{ s.cta[0] }}">{{ s.cta[1] }}</a></p>{% endif %}</section>
+
+{% if news %}
+<section class="eco-panel"><h2>Announcements</h2>
+{% for n in news %}<p><strong>{{ n.title }}</strong><br>{{ n.body }}</p>{% endfor %}</section>
+{% endif %}
+
+{% if s.catalog %}
+<section class="eco-panel"><h2>Listings</h2>
+{% if can_manage %}<p><a class="eco-btn" href="/admin/catalog/{{ slug }}">Manage listings</a></p>{% endif %}
+{% if items %}
+<div class="eco-cards">
+{% for i in items %}
+  <article class="eco-card" id="item-{{ i.id }}">
+    <h3>{{ i.name }}</h3>
+    {% if i.category %}<p>{{ i.category }}</p>{% endif %}
+    <p>{{ i.description }}</p>
+    {% if i.price_note %}<p><strong>{{ i.price_note }}</strong></p>{% endif %}
+    <span class="eco-badge">{{ statuses.get(i.status, i.status) }}</span>
+    <p><a href="#enquiry" class="pick-item" data-id="{{ i.id }}" data-name="{{ i.name }}">Enquire about this item</a></p>
+  </article>
+{% endfor %}
+</div>
+{% else %}<p>No listings are published yet. Check back soon or send an enquiry.</p>{% endif %}
+</section>
+{% endif %}
+
+{% if s.enquiry %}
+<section class="eco-panel" id="enquiry"><h2>{{ s.enquiry_label }}</h2>
+{% if sent %}<p class="eco-ok">Thank you. Your enquiry was recorded. This is not a confirmed booking, order or approval.</p>{% endif %}
+{% if player %}
+<form method="post" action="/ecosystem/{{ slug }}/enquiry" class="eco-form">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  <input type="hidden" name="item_id" id="item_id" value="">
+  <label>Subject <input name="subject" id="subject" maxlength="200"></label>
+  <label>Message <textarea name="message" required maxlength="2000" rows="5"></textarea></label>
+  <label>Phone or other contact (optional) <input name="contact" maxlength="200"></label>
+  <button class="eco-btn" type="submit">Send enquiry</button>
+</form>
+{% else %}<p><a class="eco-btn" href="/login">Log in to send an enquiry</a></p>{% endif %}
+</section>
+{% endif %}
+<script>
+document.querySelectorAll('.pick-item').forEach(function(a){a.addEventListener('click',function(){
+var f=document.getElementById('item_id'),t=document.getElementById('subject');
+if(f)f.value=a.dataset.id;if(t)t.value='Enquiry: '+a.dataset.name;});});
+</script>
+{% endblock %}

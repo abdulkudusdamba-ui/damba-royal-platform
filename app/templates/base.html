@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Damba Royal{% endblock %}</title>
+<link rel="stylesheet" href="/static/css/style.css">
+<link rel="stylesheet" href="/static/css/ecosystem.css">
+</head>
+<body class="eco-body">
+<header class="eco-header">
+  <a class="eco-brand" href="{{ '/dashboard' if player else '/' }}">👑 DAMBA ROYAL</a>
+  <nav class="eco-nav" aria-label="Main">
+    {% if player %}<a href="/dashboard">Dashboard</a>{% else %}<a href="/login">Login</a>{% endif %}
+    <a href="/ecosystem">Ecosystem</a>
+    {% for slug, sec in sections.items() %}<a href="/ecosystem/{{ slug }}">{{ sec.title }}</a>{% endfor %}
+  </nav>
+</header>
+<main class="eco-main">
+{% block content %}{% endblock %}
+</main>
+<footer class="eco-footer">© 2026 Damba Royal · Building Africa's Global Heritage Ecosystem</footer>
+</body>
+</html>

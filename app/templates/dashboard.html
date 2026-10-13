@@ -8,6 +8,7 @@
 <title>Damba Royal Command Center</title>
 
 <link rel="stylesheet" href="/static/css/style.css">
+<link rel="stylesheet" href="/static/css/ecosystem.css">
 </head>
 
 <body>
@@ -116,7 +117,7 @@ Bonus
 <section class="dashboard">
 
 
-<div class="panel">
+<div class="panel" id="profile">
 
 <h2>👤 Royal Citizen</h2>
 
@@ -144,7 +145,7 @@ Bonus
 
 <h3>🏅 {{ player.badge }}</h3>
 
-<button>View Full Profile</button>
+<a href="/ecosystem/sal-africa"><button>View Royal ID &amp; SAL AFRICA</button></a>
 
 </div>
 
@@ -169,6 +170,7 @@ Reward:
 <a href="/challenge">
 <button>Continue Journey</button>
 </a>
+<a href="/ecosystem/labyrinth"><button>About the Labyrinth</button></a>
 
 </div>
 
@@ -189,7 +191,7 @@ Reward:
 
 <h3>Unranked</h3>
 
-<button>View Rankings</button>
+<a href="/ecosystem/labyrinth"><button>Labyrinth &amp; Rankings</button></a>
 
 </div>
 
@@ -210,7 +212,7 @@ Your Digital Identity Platform
 
 <p>✔ Future Asset Services</p>
 
-<button>Open SAL AFRICA</button>
+<a href="/ecosystem/sal-africa"><button>Open SAL AFRICA</button></a>
 
 </div>
 
@@ -231,7 +233,7 @@ Luxury Fashion
 Northern Heritage Collection
 </p>
 
-<button>Explore Luxury</button>
+<a href="/ecosystem/luxury"><button>Explore Luxury</button></a>
 
 </div>
 
@@ -252,7 +254,7 @@ Luxury Accommodation
 Cultural Experience
 </p>
 
-<button>Discover Resort</button>
+<a href="/ecosystem/resort"><button>Discover Resort</button></a>
 
 </div>
 
@@ -269,7 +271,33 @@ Cultural Experience
 
 <p>Future Championship Invitations</p>
 
-<button>Manage Journey</button>
+<a href="/ecosystem/journey"><button>Manage Journey</button></a>
+
+</div>
+
+
+<div class="panel">
+
+<h2>🐎 Polo &amp; Equestrian Park</h2>
+
+<p>Under development</p>
+
+<p>Enquiries open</p>
+
+<a href="/ecosystem/polo"><button>Learn More</button></a>
+
+</div>
+
+
+<div class="panel">
+
+<h2>🐂 Damba Royal Livestock</h2>
+
+<p>Listings and availability</p>
+
+<p>Purchase enquiries</p>
+
+<a href="/ecosystem/livestock"><button>View Livestock</button></a>
 
 </div>
 
@@ -293,6 +321,15 @@ Every challenge you complete earns experience and helps you qualify for future c
 <strong>Founding Player Badge.</strong>
 </p>
 
+{% for n in news %}
+<div class="news-post">
+<p><strong>📢 {{ n.title }}</strong> <small>({{ n.category }} · {{ n.created_at.strftime('%Y-%m-%d') }})</small></p>
+<p>{{ n.body }}</p>
+</div>
+{% endfor %}
+
+{% if is_admin %}<p class="admin-links"><a href="/admin/news">Manage news</a></p>{% endif %}
+
 </section>
 
 
@@ -303,7 +340,7 @@ Every challenge you complete earns experience and helps you qualify for future c
 <div class="eco-grid">
 
 
-<div>
+<a class="eco-link" href="/ecosystem/labyrinth"><div>
 
 <h3>🏰 Royal Labyrinth</h3>
 
@@ -315,10 +352,10 @@ Qualify globally.
 Prepare for the future physical championship.
 </p>
 
-</div>
+</div></a>
 
 
-<div>
+<a class="eco-link" href="/ecosystem/sal-africa"><div>
 
 <h3>🪙 SAL AFRICA</h3>
 
@@ -330,10 +367,10 @@ Digital Wallet.
 Future Asset Platform.
 </p>
 
-</div>
+</div></a>
 
 
-<div>
+<a class="eco-link" href="/ecosystem/luxury"><div>
 
 <h3>🛍️ Damba Royal Luxury</h3>
 
@@ -345,10 +382,10 @@ Premium Fashion
 Northern Heritage Collection
 </p>
 
-</div>
+</div></a>
 
 
-<div>
+<a class="eco-link" href="/ecosystem/resort"><div>
 
 <h3>🏨 Royal Resort</h3>
 
@@ -360,10 +397,10 @@ Future championship destination
 Cultural tourism
 </p>
 
-</div>
+</div></a>
 
 
-<div>
+<a class="eco-link" href="/ecosystem/journey"><div>
 
 <h3>✈️ Royal Journey</h3>
 
@@ -379,10 +416,10 @@ Airport Pickup
 Future Invitations
 </p>
 
-</div>
+</div></a>
 
 
-<div>
+<a class="eco-link" href="/ecosystem/polo"><div>
 
 <h3>🐎 Polo & Equestrian Park</h3>
 
@@ -395,6 +432,20 @@ Shows
 
 Royal competitions
 </p>
+
+</div></a>
+
+<div>
+
+<a class="eco-link" href="/ecosystem/livestock"><h3>🐂 Damba Royal Livestock</h3>
+
+<p>
+Livestock listings
+
+Availability
+
+Enquiries
+</p></a>
 
 </div>
 
@@ -423,6 +474,8 @@ qualified players will receive championship invitations.
 
 </section>
 
+
+<p class="admin-links"><a href="/ecosystem">All ecosystem sections</a>{% if can_livestock %}<a href="/admin/catalog/livestock">Manage livestock</a><a href="/admin/enquiries">Enquiries</a>{% endif %}{% if is_admin %}<a href="/admin/catalog/luxury">Manage luxury</a>{% endif %}<a href="/auth/logout">Log out</a></p>
 
 <footer>
 
