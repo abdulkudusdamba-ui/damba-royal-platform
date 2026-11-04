@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Damba Royal Ecosystem{% endblock %}
+{% block content %}
+<h1 class="eco-h1">The Damba Royal Ecosystem</h1>
+<p class="eco-lead">Seven connected pillars. Each card shows what is available now and what is still under development.</p>
+<div class="eco-cards">
+{% for slug, s in sections.items() %}
+  <a class="eco-card" href="/ecosystem/{{ slug }}">
+    <span class="eco-icon">{{ s.icon }}</span>
+    <h2>{{ s.title }}</h2>
+    <p>{{ s.tagline }}</p>
+    <span class="eco-badge">{{ s.status }}</span>
+  </a>
+{% endfor %}
+</div>
+{% endblock %}

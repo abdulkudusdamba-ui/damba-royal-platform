@@ -4,6 +4,10 @@ from datetime import datetime
 from app.database import Base
 
 
+def utcnow():
+    return datetime.now(timezone.utc).replace(tzinfo=None)
+
+
 class Player(Base):
     __tablename__ = "players"
 
@@ -18,7 +22,7 @@ class Player(Base):
     xp = Column(Integer, default=0)
     royal_tokens = Column(Integer, default=0)
 
-    level = Column(String, default="Explorer")
+    level = Column(String, default="Unranked")
     badge = Column(String, default="Founding Player")
 
 
