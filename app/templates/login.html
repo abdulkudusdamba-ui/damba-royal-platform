@@ -20,6 +20,7 @@
         <p>Enter your Royal Email and password to continue your journey.</p>
 
         <form action="/auth/login" method="post">
+            <input type="hidden" name="csrf" value="{{ csrf }}">
 
             <input
                 type="email"

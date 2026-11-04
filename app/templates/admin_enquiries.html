@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Enquiries{% endblock %}
+{% block content %}
+<h1 class="eco-h1">Enquiries</h1>
+<section class="eco-panel">
+{% for e, p in rows %}
+<div class="eco-row"><span class="eco-badge">{{ sections[e.section].title }}</span> {{ e.created_at.strftime('%Y-%m-%d %H:%M') }} UTC<br>
+<strong>{{ e.subject }}</strong><br>{{ e.message }}<br>From: {{ p.full_name }} ({{ p.email }}, {{ p.royal_id }}){% if e.contact %} · {{ e.contact }}{% endif %}</div>
+{% else %}<p>No enquiries yet.</p>{% endfor %}</section>
+{% endblock %}

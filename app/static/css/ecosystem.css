@@ -1,0 +1,35 @@
+:root{--indigo:#1a1446;--indigo2:#2b2170;--gold:#d4a937;--cream:#f6efdc}
+.eco-body{background:linear-gradient(180deg,var(--indigo) 0,#0f0b2e 100%);color:var(--cream);font-family:Georgia,"Times New Roman",serif;min-height:100vh;display:flex;flex-direction:column}
+.eco-body *{font-family:inherit}
+.eco-header{background:#0f0b2e;border-bottom:2px solid var(--gold);padding:12px 20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.eco-brand{color:var(--gold);font-size:24px;letter-spacing:2px;text-decoration:none;font-weight:bold}
+.eco-nav{display:flex;flex-wrap:wrap;gap:6px 14px}
+.eco-nav a,.eco-main a{color:var(--gold)}
+.eco-nav a{font-size:14px;text-decoration:none}
+.eco-nav a:hover{text-decoration:underline}
+.eco-main{flex:1;max-width:1100px;width:100%;margin:0 auto;padding:24px 16px}
+.eco-h1{color:var(--gold);margin-bottom:8px;font-size:clamp(26px,5vw,38px)}
+.eco-lead{margin-bottom:20px;opacity:.9}
+.eco-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:16px 0}
+.eco-card{background:var(--indigo2);border:1px solid var(--gold);border-radius:10px;padding:18px;color:var(--cream)!important;text-decoration:none;display:block}
+a.eco-card:hover{box-shadow:0 0 14px rgba(212,169,55,.5)}
+.eco-card h2,.eco-card h3{color:var(--gold);margin:6px 0}
+.eco-icon{font-size:30px}
+.eco-badge{display:inline-block;border:1px solid var(--gold);color:var(--gold);border-radius:12px;padding:2px 10px;font-size:12px;margin:6px 4px 0 0}
+.eco-panel{background:rgba(255,255,255,.05);border-left:4px solid var(--gold);border-radius:6px;padding:16px;margin:16px 0}
+.eco-panel h2{color:var(--gold);margin-bottom:8px;font-size:20px}
+.eco-panel ul{margin-left:20px}
+.eco-btn{display:inline-block;background:var(--gold);color:var(--indigo)!important;border:0;border-radius:6px;padding:10px 18px;font-weight:bold;text-decoration:none;cursor:pointer;font-size:15px}
+.eco-form{display:grid;gap:12px;max-width:560px}
+.eco-form label{display:grid;gap:4px}
+.eco-form input:not([type=checkbox]),.eco-form textarea,.eco-form select{padding:8px;border-radius:4px;border:1px solid var(--gold);background:#0f0b2e;color:var(--cream);font-size:15px}
+.eco-row{padding:10px 0;border-bottom:1px solid rgba(212,169,55,.3)}
+.eco-ok{color:#9be59b;margin-bottom:10px}
+.eco-footer{text-align:center;padding:18px;border-top:1px solid var(--gold);font-size:13px}
+/* dashboard additions */
+.panel a.panel-link,.eco-grid a.eco-link{display:inline-block;text-decoration:none}
+.eco-grid a.eco-link{color:inherit;display:block}
+.news-post{margin-top:14px;padding-top:10px;border-top:1px solid rgba(212,169,55,.4)}
+.admin-links{text-align:center;padding:10px}
+.admin-links a{color:gold;margin:0 10px}
+.panel a button{width:100%}

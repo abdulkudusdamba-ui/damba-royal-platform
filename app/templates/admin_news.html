@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Manage news{% endblock %}
+{% block content %}
+<h1 class="eco-h1">Manage Royal News</h1>
+<section class="eco-panel"><h2>{{ 'Edit' if editing else 'New' }} announcement</h2>
+<form method="post" action="/admin/news" class="eco-form">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  <input type="hidden" name="post_id" value="{{ editing.id if editing else '' }}">
+  <label>Title <input name="title" required maxlength="200" value="{{ editing.title if editing else '' }}"></label>
+  <label>Category <select name="category">{% for c in categories %}<option {{ 'selected' if editing and editing.category == c }}>{{ c }}</option>{% endfor %}</select></label>
+  <label>Body <textarea name="body" required rows="6" maxlength="5000">{{ editing.body if editing else '' }}</textarea></label>
+  <label><input type="checkbox" name="published" value="1" {{ 'checked' if (editing is none or editing.published) }}> Published</label>
+  <button class="eco-btn" type="submit">Save</button>
+</form></section>
+<section class="eco-panel"><h2>All announcements</h2>
+{% for p in posts %}
+<div class="eco-row"><strong>{{ p.title }}</strong> <span class="eco-badge">{{ p.category }}</span>
+ <span class="eco-badge">{{ 'Published' if p.published else 'Draft' }}</span><br>{{ p.body }}<br>
+ <a href="/admin/news?edit={{ p.id }}">Edit</a>
+ <form method="post" action="/admin/news/{{ p.id }}/toggle" style="display:inline"><input type="hidden" name="csrf" value="{{ csrf }}"><button type="submit">{{ 'Unpublish' if p.published else 'Publish' }}</button></form></div>
+{% endfor %}</section>
+{% endblock %}

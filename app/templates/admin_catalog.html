@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Manage {{ s.title }}{% endblock %}
+{% block content %}
+<p><a href="/ecosystem/{{ section }}">← {{ s.title }}</a></p>
+<h1 class="eco-h1">Manage {{ s.title }}</h1>
+<section class="eco-panel"><h2>{{ 'Edit' if editing else 'New' }} listing</h2>
+<form method="post" action="/admin/catalog/{{ section }}" class="eco-form">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  <input type="hidden" name="item_id" value="{{ editing.id if editing else '' }}">
+  <label>Name <input name="name" required maxlength="200" value="{{ editing.name if editing else '' }}"></label>
+  <label>Category <input name="category" maxlength="100" value="{{ editing.category if editing else '' }}"></label>
+  <label>Description <textarea name="description" rows="4" maxlength="3000">{{ editing.description if editing else '' }}</textarea></label>
+  <label>Price note (informational, no payment) <input name="price_note" maxlength="200" value="{{ editing.price_note if editing else '' }}"></label>
+  <label>Status <select name="status">{% for k, v in statuses.items() %}<option value="{{ k }}" {{ 'selected' if editing and editing.status == k }}>{{ v }}</option>{% endfor %}</select></label>
+  <label><input type="checkbox" name="published" value="1" {{ 'checked' if (editing is none or editing.published) }}> Published</label>
+  <button class="eco-btn" type="submit">Save</button>
+</form></section>
+<section class="eco-panel"><h2>Listings</h2>
+{% for i in items %}<div class="eco-row"><strong>{{ i.name }}</strong> <span class="eco-badge">{{ statuses.get(i.status, i.status) }}</span> <span class="eco-badge">{{ 'Published' if i.published else 'Hidden' }}</span> <a href="/admin/catalog/{{ section }}?edit={{ i.id }}">Edit</a></div>
+{% else %}<p>No listings yet.</p>{% endfor %}</section>
+{% endblock %}

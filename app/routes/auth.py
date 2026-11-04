@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from app.database import SessionLocal
 from app.models import Player
 from app.security import hash_password, verify_password
+from app.csrf import verify_csrf
 
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
@@ -32,12 +33,19 @@ def generate_royal_id(player_id: int, country: str):
 
 @router.post("/register")
 def register(
+    request: Request,
     full_name: str = Form(...),
     email: str = Form(...),
     country: str = Form(...),
     alias: str = Form(...),
-    password: str = Form(...),
+    password: str = Form(...)
 ):
+    print("========== REGISTER ROUTE HIT ==========")
+    print("Full Name:", full_name)
+    print("Email:", email)
+    print("Country:", country)
+    print("Alias:", alias)
+
     db: Session = SessionLocal()
     try:
         player = Player(
@@ -48,18 +56,31 @@ def register(
             xp=0,
             royal_tokens=0,
             level="Explorer",
-            badge="Founding Player",
+            badge="Founding Player"
         )
         setattr(player, "password", hash_password(password))
         db.add(player)
         db.flush()
         player.royal_id = generate_royal_id(player.id, player.country)
         db.commit()
-    except ValueError:
-        db.rollback()
-        raise HTTPException(status_code=422, detail="Invalid registration details.")
-    except IntegrityError:
-        db.rollback()
+        db.refresh(player)
+
+        player.royal_id = generate_royal_id(
+            player.id,
+            player.country
+        )
+
+        db.commit()
+
+        print("========== PLAYER CREATED ==========")
+        print("Royal ID:", player.royal_id)
+        print("Player ID:", player.id)
+
+        return RedirectResponse(
+            url="/login",
+            status_code=303
+        )
+
     finally:
         db.close()
 
@@ -70,8 +91,11 @@ def register(
 def login(
     request: Request,
     email: str = Form(...),
-    password: str = Form(...),
+    password: str = Form(...)
 ):
+    print("========== LOGIN ROUTE HIT ==========")
+    print("Email:", email)
+
     db: Session = SessionLocal()
     try:
         player = (
@@ -79,21 +103,34 @@ def login(
             .filter(func.lower(Player.email) == email.strip().lower())
             .first()
         )
-        stored_password = player.password if player else DUMMY_PASSWORD_HASH
-        if not verify_password(password, stored_password) or not player:
-            raise HTTPException(
-                status_code=401,
-                detail="Invalid email or password.",
-            )
 
-        request.session.clear()
+        if not player:
+            return {
+                "status": "error",
+                "message": "Invalid email or password."
+            }
+
+        if not verify_password(password, player.password):
+            return {
+                "status": "error",
+                "message": "Invalid email or password."
+            }
+
         request.session["player_id"] = player.id
-        return RedirectResponse(url="/dashboard", status_code=303)
+
+        print("========== LOGIN SUCCESS ==========")
+        print("Royal ID:", player.royal_id)
+
+        return RedirectResponse(
+            url="/dashboard",
+            status_code=303
+        )
+
     finally:
         db.close()
 
 
-@router.post("/logout")
+@router.get("/logout")
 def logout(request: Request):
     request.session.clear()
     return RedirectResponse(url="/", status_code=303)

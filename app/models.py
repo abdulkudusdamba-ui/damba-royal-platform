@@ -1,7 +1,11 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, UniqueConstraint
-from datetime import datetime, timezone
+from datetime import datetime
 
 from app.database import Base
+
+
+def utcnow():
+    return datetime.now(timezone.utc).replace(tzinfo=None)
 
 
 class Player(Base):
@@ -18,7 +22,7 @@ class Player(Base):
     xp = Column(Integer, default=0)
     royal_tokens = Column(Integer, default=0)
 
-    level = Column(String, default="Explorer")
+    level = Column(String, default="Unranked")
     badge = Column(String, default="Founding Player")
 
 
@@ -71,7 +75,7 @@ class ChallengeAttempt(Base):
 
     completed_at = Column(
         DateTime,
-        default=lambda: datetime.now(timezone.utc).replace(tzinfo=None),
+        default=datetime.utcnow,
         nullable=False
     )
 
@@ -82,12 +86,3 @@ class ChallengeAttempt(Base):
             name="uq_player_challenge"
         ),
     )
-
-
-class RateLimitBucket(Base):
-    __tablename__ = "rate_limit_buckets"
-
-    bucket_key = Column(String(64), primary_key=True)
-    window_started = Column(DateTime, nullable=False)
-    request_count = Column(Integer, nullable=False)
-    expires_at = Column(DateTime, nullable=False, index=True)
